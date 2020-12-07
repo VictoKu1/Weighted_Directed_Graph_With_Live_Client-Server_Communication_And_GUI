@@ -81,6 +81,7 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void connect(int src, int dest, double w) {
+        if (w<0)return;
         if (this.getNode(src) != null && this.getNode(dest) != null) {
             if (!((Node) nodes.get(src)).hasNi(dest)) num_edge++;
             ((Node) nodes.get(src)).addNi(dest, w, true);
