@@ -43,6 +43,9 @@ class NodeTest {
     @Test
     void getLocation() {
         assertEquals(null,n.getLocation());
+        geo_location g = new Location();
+        n.setLocation(g);
+        assertEquals(g,n.getLocation());
     }
     @Test
     void getWeight() {
