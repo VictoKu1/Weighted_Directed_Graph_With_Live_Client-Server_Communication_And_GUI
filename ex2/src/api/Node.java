@@ -54,22 +54,8 @@ import java.util.HashMap;
         return edge;
     }
     public void removeNi(int key){
-        neighbors.remove(key);
+        neighbors.remove((Object)key);
     }
-    /**
-     * this function return the dist between the node to the
-     * node represented by the given node_id
-     * in case there are not neighbors return -1
-     *
-     * @param key
-     * @return
-     */
-    public double getDist(int key) {
-        if (this.key == key) return 0;
-        if (this.hasNi(key)) return edges.get(key).getDest();
-        return -1;
-    }
-
     /**
      * return an array of all the node's neighbors node_ids
      *

@@ -42,13 +42,6 @@ public class DWGraph_DS implements directed_weighted_graph {
         return nodes.get(key);
     }
 
-    /**
-     * return true iff (if and only if) there is an edge between node1 and node2
-     *
-     * @param src
-     * @param dest
-     * @return
-     */
     private boolean hasEdge(int src, int dest) {
         if (this.getNode(src) == null || this.getNode(dest) == null || src == dest) return false;
         Node n = (Node) this.getNode(src);
@@ -79,12 +72,6 @@ public class DWGraph_DS implements directed_weighted_graph {
         nodes.put(n.getKey(), n);
         mc++;
     }
-
-    /**
-     * add a new node to the graph with the given key.
-     *
-     * @param key
-     */
     /**
      * Connect an edge between node1 and node2, with an edge with weight >=0.
      *
@@ -132,30 +119,6 @@ public class DWGraph_DS implements directed_weighted_graph {
         }
         return edges;
     }
-
-    /**
-     * This method returns a Collection containing all the
-     * nodes connected to node_id
-     *
-     * @param node_id
-     * @return Collection<src.node_info>
-     */
-    /*
-    @Override
-    public Collection<node_info> getV(int node_id) {
-        if (getNode(node_id) == null) return null;
-        Node m = (Node) edges.get(node_id);
-        ArrayList<node_info> node_list = new ArrayList<>();
-        int i;
-        for (Object j : m.getNi()) {
-            i = (Integer) j;
-            node_list.add(edges.get(i));
-        }
-        return node_list;
-    }
-
-     */
-
     /**
      * Delete the node (with the given ID) from the graph -
      * and removes all edges which starts or ends at this node.
