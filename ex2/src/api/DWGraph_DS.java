@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+
 public class DWGraph_DS implements directed_weighted_graph {
-    HashMap<Integer, node_data> nodes;
-    int num_edge;
-    int mc;
+    private HashMap<Integer, node_data> nodes;
+    private boolean transpose ;
+    private int num_edge;
+    private int mc;
 
     public DWGraph_DS() {
         nodes = new HashMap<>();
         num_edge = 0;
         mc = 0;
+        transpose = false;
     }
+
     /**
-     * resets the graph for the algorithms
+     * transpose the graph
      */
+    public void Transpose(){
+        transpose = !transpose;
+    }
     /*
     public void reset() {
         Object[] o = edges.values().toArray();
@@ -44,7 +51,7 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     private boolean hasEdge(int src, int dest) {
         if (this.getNode(src) == null || this.getNode(dest) == null || src == dest) return false;
-        Node n = (Node) this.getNode(src);
+        Node_buffer n = Node_buffer.getNodes().get(src);
         return n.hasNi(dest);
     }
 
@@ -58,7 +65,7 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public edge_data getEdge(int src, int dest) {
         if (nodes.get(src) == null || nodes.get(dest) == null) return null;
-        return ((Node) nodes.get(src)).edges.get(dest);
+        return Node_buffer.getNodes().get(src).edges.get(dest);
     }
 
     /**
@@ -69,8 +76,9 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void addNode(node_data n) {
-        nodes.put(n.getKey(), n);
+        nodes.put(n.getKey(),n);
         mc++;
+        new Node_buffer(n);
     }
     /**
      * Connect an edge between node1 and node2, with an edge with weight >=0.
@@ -83,9 +91,9 @@ public class DWGraph_DS implements directed_weighted_graph {
     public void connect(int src, int dest, double w) {
         if (w<0)return;
         if (this.getNode(src) != null && this.getNode(dest) != null) {
-            if (!((Node) nodes.get(src)).hasNi(dest)) num_edge++;
-            ((Node) nodes.get(src)).addNi(dest, w, true);
-            ((Node) nodes.get(dest)).addNi(src, w, false);
+            if (!(Node_buffer.getNodes().get(src).hasNi(dest)))num_edge++;
+            Node_buffer.getNodes().get(src).addNi(nodes.get(dest), w, true);
+            Node_buffer.getNodes().get(dest).addNi(nodes.get(dest), w, false);
             mc++;
         }
     }
@@ -112,11 +120,20 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public Collection<edge_data> getE(int node_id) {
-        Node n = ((Node) nodes.get(node_id));
-        Integer[] neighbors = n.getNi();
+        Node_buffer n =  Node_buffer.getNodes().get(node_id);
         ArrayList<edge_data> edges = new ArrayList<>();
-        for (Integer i : neighbors) {
-            edges.add(n.edges.get(i));
+        Integer[] neighbors;
+        if (transpose) {
+            neighbors = n.getNi();
+            for (Integer i : neighbors) {
+                edges.add(n.edges.get(i));
+            }
+        }
+        else{
+            neighbors = n.getnNi();
+            for (Integer i : neighbors) {
+                edges.add(Node_buffer.getNodes().get(i).edges.get(n.node.getKey()));
+            }
         }
         return edges;
     }
@@ -130,7 +147,7 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public node_data removeNode(int key) {
         if (this.getNode(key) != null) {
-            Node n = (Node) nodes.get(key);
+            Node_buffer n = Node_buffer.getNodes().get(key);
             for (int j : n.getNi()) {
                 this.removeEdge(key,j);
             }
@@ -139,7 +156,8 @@ public class DWGraph_DS implements directed_weighted_graph {
             }
             mc++;
             nodes.remove(key);
-            return n;
+            Node_buffer.getNodes().remove(key);
+            return n.node;
         }
         return null;
     }
@@ -152,8 +170,8 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public edge_data removeEdge(int src, int dest) {
-        Node n1 = (Node) nodes.get(src);
-        Node n2 = (Node) nodes.get(dest);
+        Node_buffer n1 = Node_buffer.getNodes().get(src);
+        Node_buffer n2 = Node_buffer.getNodes().get(src);
         edge_data edge = null;
         if (this.hasEdge(src, dest)) {
             if (n1.hasNi(dest)) {
@@ -196,6 +214,166 @@ public class DWGraph_DS implements directed_weighted_graph {
         return mc;
     }
 
+    private static class Node_buffer{
+        private static HashMap<Integer,Node_buffer> nodes = new HashMap<>();
+        public node_data node;
+        public HashMap<Integer,edge_data> edges;
+        public ArrayList<Integer> neighbors;
+
+        public Node_buffer(node_data node) {
+            this.node = node;
+            this.edges = new HashMap<>();
+            this.neighbors = new ArrayList<>();
+            nodes.put(node.getKey(),this);
+        }
+
+        public static HashMap<Integer, Node_buffer> getNodes() {
+            return nodes;
+        }
+
+        /**
+         * this function check if the key is a neighbor of this node
+         *
+         * @param key
+         * @return boolean
+         */
+
+        public boolean hasNi(int key) {
+            return (edges.get(key) != null) || node.getKey() == key;
+        }
+
+        /**
+         * this function adds the given node as a neighbor to the list of neighbors
+         *
+         * @param n2
+         * @param dis
+         */
+        public void addNi(node_data n2, double dis,boolean b) {
+            if (b) {
+                edges.put(n2.getKey(), new Edge(node,n2,dis));
+            }
+            else
+                neighbors.add(n2.getKey());
+
+        }
+        /**
+         * this function removes the given node from the neighbors list
+         *
+         * @param key
+         */
+        public edge_data removeNode(int key) {
+            edge_data edge = edges.get(key);
+            edges.remove(key);
+            return edge;
+        }
+        public void removeNi(int key){
+            neighbors.remove((Object)key);
+        }
+        /**
+         * return an array of all the node's neighbors node_ids
+         *
+         * @return
+         */
+        public Integer[] getNi() {
+            return edges.keySet().toArray(Integer[] :: new );
+        }
+        public Integer[] getnNi() {
+            return neighbors.toArray(Integer[] :: new );
+        }
+        /**
+         * Returns the key (id) associated with this node.
+         *
+         * @return
+         */
+        public int getKey(){
+            return node.getKey();
+        }
+
+        private static class Edge implements edge_data{
+            node_data src;
+            node_data dest;
+            String info;
+            double weight;
+            int tag;
+
+            public Edge(node_data n1, node_data n2, double weight) {
+                this.src = n1;
+                dest = n2;
+                this.weight = weight;
+            }
+
+            /**
+             * The id of the source node of this edge.
+             *
+             * @return
+             */
+            @Override
+            public int getSrc() {
+                return src.getKey();
+            }
+
+            /**
+             * The id of the destination node of this edge
+             *
+             * @return
+             */
+            @Override
+            public int getDest() {
+                return dest.getKey();
+            }
+
+            /**
+             * @return the weight of this edge (positive value).
+             */
+            @Override
+            public double getWeight() {
+                return weight;
+            }
+
+            /**
+             * Returns the remark (meta data) associated with this edge.
+             *
+             * @return
+             */
+            @Override
+            public String getInfo() {
+                return info;
+            }
+
+            /**
+             * Allows changing the remark (meta data) associated with this edge.
+             *
+             * @param s
+             */
+            @Override
+            public void setInfo(String s) {
+                this.info = s;
+
+            }
+
+            /**
+             * Temporal data (aka color: e,g, white, gray, black)
+             * which can be used be algorithms
+             *
+             * @return
+             */
+            @Override
+            public int getTag() {
+                return tag;
+            }
+
+            /**
+             * This method allows setting the "tag" value for temporal marking an edge - common
+             * practice for marking by algorithms.
+             *
+             * @param t - the new value of the tag
+             */
+            @Override
+            public void setTag(int t) {
+                this.tag = t;
+            }
+        }
+    }
 
 }
 
