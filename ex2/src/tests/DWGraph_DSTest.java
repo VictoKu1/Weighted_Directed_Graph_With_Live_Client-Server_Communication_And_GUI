@@ -30,12 +30,12 @@ class DWGraph_DSTest {
     @Test
     void getEdge() {
         graph.connect(0,9,1);
-        Edge e = (Edge) graph.getEdge(0,9);
+        edge_data e =  graph.getEdge(0,9);
         assertEquals(0,e.getSrc());
         assertEquals(9,e.getDest());
         assertEquals(1,e.getWeight());
         graph.connect(0,9,1);
-        e = (Edge) graph.getEdge(9,0);
+        e = graph.getEdge(9,0);
         assertEquals(null,e);
     }
     @Test
@@ -70,12 +70,12 @@ class DWGraph_DSTest {
     void removeEdge() {
         graph.connect(0,9,1);
         graph.connect(9,0,1);
-        Edge e = (Edge) graph.getEdge(0,9);
+        edge_data e =  graph.getEdge(0,9);
         assertNotEquals(null,e);
         graph.removeEdge(0,9);
-        e = (Edge) graph.getEdge(0,9);
+        e =  graph.getEdge(0,9);
         assertEquals(null,e);
-        e = (Edge) graph.getEdge(9,0);
+        e =  graph.getEdge(9,0);
         assertNotEquals(null,e);
     }
 
