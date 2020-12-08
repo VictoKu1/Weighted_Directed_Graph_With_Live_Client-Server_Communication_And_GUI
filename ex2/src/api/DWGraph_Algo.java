@@ -1,8 +1,9 @@
 package api;
 
+import java.util.Iterator;
 import java.util.List;
 
-public class DWGraph_Algo implements dw_graph_algorithms{
+public class DWGraph_Algo implements dw_graph_algorithms {
     private directed_weighted_graph g;
 
     /*
@@ -39,10 +40,35 @@ public class DWGraph_Algo implements dw_graph_algorithms{
         return g1;
     }
 
-    private void copyNodes(directed_weighted_graph g1) {
+    private void copyNodes(directed_weighted_graph target) {
+        Iterator<node_data> itr = this.g.getV().iterator();
+        while (itr.hasNext()) {
+            node_data fromNode = itr.next();
+            node_data copiedNode = copyNode(fromNode);
+            target.addNode(copiedNode);
+        }
     }
 
-    private void copyEdges(directed_weighted_graph g1) {
+    private node_data copyNode(node_data fromNode) {
+        node_data copiedNode = new Node(fromNode.getKey());
+        copiedNode.setInfo(fromNode.getInfo());
+        copiedNode.setLocation(fromNode.getLocation());
+        copiedNode.setTag(fromNode.getTag());
+        copiedNode.setWeight(fromNode.getWeight());
+        return copiedNode;
+    }
+
+    private void copyEdges(directed_weighted_graph target) {
+        Iterator<node_data> itr = this.g.getV().iterator();
+        while (itr.hasNext()) {
+            Iterator<edge_data> itr1 = this.g.getE(itr.next().getKey()).iterator();
+            while (itr1.hasNext()) {
+                edge_data fromEdge = itr1.next();
+                target.connect(fromEdge.getSrc(), fromEdge.getDest(), fromEdge.getWeight());
+                target.getEdge(fromEdge.getSrc(), fromEdge.getDest()).setInfo(fromEdge.getInfo());
+                target.getEdge(fromEdge.getSrc(), fromEdge.getDest()).setTag(fromEdge.getTag());
+            }
+        }
     }
 
     /**
