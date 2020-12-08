@@ -1,6 +1,6 @@
 package api;
 
-public class edgeLocation implements edge_location{
+public class edgeLocation implements edge_location {
     private edge_data e;
 
     /**

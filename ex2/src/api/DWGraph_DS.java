@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class DWGraph_DS implements directed_weighted_graph {
     private HashMap<Integer, node_data> nodes;
-    private boolean transpose ;
+    private boolean transpose;
     private int num_edge;
     private int mc;
 
@@ -21,7 +21,7 @@ public class DWGraph_DS implements directed_weighted_graph {
     /**
      * transpose the graph
      */
-    public void Transpose(){
+    public void Transpose() {
         transpose = !transpose;
     }
     /*
@@ -76,10 +76,11 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void addNode(node_data n) {
-        nodes.put(n.getKey(),n);
+        nodes.put(n.getKey(), n);
         mc++;
         new Node_buffer(n);
     }
+
     /**
      * Connect an edge between node1 and node2, with an edge with weight >=0.
      *
@@ -89,9 +90,9 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void connect(int src, int dest, double w) {
-        if (w<0)return;
+        if (w < 0) return;
         if (this.getNode(src) != null && this.getNode(dest) != null) {
-            if (!(Node_buffer.getNodes().get(src).hasNi(dest)))num_edge++;
+            if (!(Node_buffer.getNodes().get(src).hasNi(dest))) num_edge++;
             Node_buffer.getNodes().get(src).addNi(nodes.get(dest), w, true);
             Node_buffer.getNodes().get(dest).addNi(nodes.get(dest), w, false);
             mc++;
@@ -120,7 +121,7 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public Collection<edge_data> getE(int node_id) {
-        Node_buffer n =  Node_buffer.getNodes().get(node_id);
+        Node_buffer n = Node_buffer.getNodes().get(node_id);
         ArrayList<edge_data> edges = new ArrayList<>();
         Integer[] neighbors;
         if (transpose) {
@@ -128,8 +129,7 @@ public class DWGraph_DS implements directed_weighted_graph {
             for (Integer i : neighbors) {
                 edges.add(n.edges.get(i));
             }
-        }
-        else{
+        } else {
             neighbors = n.getnNi();
             for (Integer i : neighbors) {
                 edges.add(Node_buffer.getNodes().get(i).edges.get(n.node.getKey()));
@@ -137,6 +137,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         }
         return edges;
     }
+
     /**
      * Delete the node (with the given ID) from the graph -
      * and removes all edges which starts or ends at this node.
@@ -149,10 +150,10 @@ public class DWGraph_DS implements directed_weighted_graph {
         if (this.getNode(key) != null) {
             Node_buffer n = Node_buffer.getNodes().get(key);
             for (int j : n.getNi()) {
-                this.removeEdge(key,j);
+                this.removeEdge(key, j);
             }
-            for (int j:n.getnNi()) {
-                this.removeEdge(j,key);
+            for (int j : n.getnNi()) {
+                this.removeEdge(j, key);
             }
             mc++;
             nodes.remove(key);
@@ -214,17 +215,17 @@ public class DWGraph_DS implements directed_weighted_graph {
         return mc;
     }
 
-    private static class Node_buffer{
-        private static HashMap<Integer,Node_buffer> nodes = new HashMap<>();
+    private static class Node_buffer {
+        private static HashMap<Integer, Node_buffer> nodes = new HashMap<>();
         public node_data node;
-        public HashMap<Integer,edge_data> edges;
+        public HashMap<Integer, edge_data> edges;
         public ArrayList<Integer> neighbors;
 
         public Node_buffer(node_data node) {
             this.node = node;
             this.edges = new HashMap<>();
             this.neighbors = new ArrayList<>();
-            nodes.put(node.getKey(),this);
+            nodes.put(node.getKey(), this);
         }
 
         public static HashMap<Integer, Node_buffer> getNodes() {
@@ -248,14 +249,14 @@ public class DWGraph_DS implements directed_weighted_graph {
          * @param n2
          * @param dis
          */
-        public void addNi(node_data n2, double dis,boolean b) {
+        public void addNi(node_data n2, double dis, boolean b) {
             if (b) {
-                edges.put(n2.getKey(), new Edge(node,n2,dis));
-            }
-            else
+                edges.put(n2.getKey(), new Edge(node, n2, dis));
+            } else
                 neighbors.add(n2.getKey());
 
         }
+
         /**
          * this function removes the given node from the neighbors list
          *
@@ -266,30 +267,34 @@ public class DWGraph_DS implements directed_weighted_graph {
             edges.remove(key);
             return edge;
         }
-        public void removeNi(int key){
-            neighbors.remove((Object)key);
+
+        public void removeNi(int key) {
+            neighbors.remove((Object) key);
         }
+
         /**
          * return an array of all the node's neighbors node_ids
          *
          * @return
          */
         public Integer[] getNi() {
-            return edges.keySet().toArray(Integer[] :: new );
+            return edges.keySet().toArray(Integer[]::new);
         }
+
         public Integer[] getnNi() {
-            return neighbors.toArray(Integer[] :: new );
+            return neighbors.toArray(Integer[]::new);
         }
+
         /**
          * Returns the key (id) associated with this node.
          *
          * @return
          */
-        public int getKey(){
+        public int getKey() {
             return node.getKey();
         }
 
-        private static class Edge implements edge_data{
+        private static class Edge implements edge_data {
             node_data src;
             node_data dest;
             String info;

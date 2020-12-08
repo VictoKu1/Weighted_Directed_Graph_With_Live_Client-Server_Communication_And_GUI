@@ -1,10 +1,10 @@
 package api;
 
 public class Location implements geo_location {
-    private double x,y,z;
+    private double x, y, z;
 
     public Location() {
-        this(0,0,0);
+        this(0, 0, 0);
     }
 
     public Location(double x, double y, double z) {
@@ -33,7 +33,7 @@ public class Location implements geo_location {
         double dx = this.x - g.x();
         double dy = this.y - g.y();
         double dz = this.z - g.z();
-        double sum = dx*dx + dy*dy+dz*dz;
+        double sum = dx * dx + dy * dy + dz * dz;
         double ans = Math.sqrt(sum);
         return ans;
     }
