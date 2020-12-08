@@ -3,6 +3,7 @@ package api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class DWGraph_DS implements directed_weighted_graph {
@@ -124,7 +125,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         Node_buffer n = Node_buffer.getNodes().get(node_id);
         ArrayList<edge_data> edges = new ArrayList<>();
         Integer[] neighbors;
-        if (transpose) {
+        if (!transpose) {
             neighbors = n.getNi();
             for (Integer i : neighbors) {
                 edges.add(n.edges.get(i));
@@ -215,6 +216,30 @@ public class DWGraph_DS implements directed_weighted_graph {
         return mc;
     }
 
+    @Override
+    public String toString() {
+        return "DWGraph_DS{" +
+                "nodes=" + Node_buffer.nodes.values() +
+                ", num_edge=" + num_edge +
+                ", mc=" + mc +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DWGraph_DS that = (DWGraph_DS) o;
+        return num_edge == that.num_edge &&
+                mc == that.mc &&
+                nodes.equals(that.nodes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nodes, transpose, num_edge, mc);
+    }
+
     private static class Node_buffer {
         private static HashMap<Integer, Node_buffer> nodes = new HashMap<>();
         public node_data node;
@@ -294,89 +319,27 @@ public class DWGraph_DS implements directed_weighted_graph {
             return node.getKey();
         }
 
-        private static class Edge implements edge_data {
-            node_data src;
-            node_data dest;
-            String info;
-            double weight;
-            int tag;
+        @Override
+        public String toString() {
+            return "Node_buffer{" +
+                    "node=" + node.getKey() +
+                    ", edges=" + edges +
+                    '}';
+        }
 
-            public Edge(node_data n1, node_data n2, double weight) {
-                this.src = n1;
-                dest = n2;
-                this.weight = weight;
-            }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node_buffer that = (Node_buffer) o;
+            return Objects.equals(node, that.node) &&
+                    Objects.equals(edges, that.edges) &&
+                    Objects.equals(neighbors, that.neighbors);
+        }
 
-            /**
-             * The id of the source node of this edge.
-             *
-             * @return
-             */
-            @Override
-            public int getSrc() {
-                return src.getKey();
-            }
-
-            /**
-             * The id of the destination node of this edge
-             *
-             * @return
-             */
-            @Override
-            public int getDest() {
-                return dest.getKey();
-            }
-
-            /**
-             * @return the weight of this edge (positive value).
-             */
-            @Override
-            public double getWeight() {
-                return weight;
-            }
-
-            /**
-             * Returns the remark (meta data) associated with this edge.
-             *
-             * @return
-             */
-            @Override
-            public String getInfo() {
-                return info;
-            }
-
-            /**
-             * Allows changing the remark (meta data) associated with this edge.
-             *
-             * @param s
-             */
-            @Override
-            public void setInfo(String s) {
-                this.info = s;
-
-            }
-
-            /**
-             * Temporal data (aka color: e,g, white, gray, black)
-             * which can be used be algorithms
-             *
-             * @return
-             */
-            @Override
-            public int getTag() {
-                return tag;
-            }
-
-            /**
-             * This method allows setting the "tag" value for temporal marking an edge - common
-             * practice for marking by algorithms.
-             *
-             * @param t - the new value of the tag
-             */
-            @Override
-            public void setTag(int t) {
-                this.tag = t;
-            }
+        @Override
+        public int hashCode() {
+            return Objects.hash(node, edges, neighbors);
         }
     }
 

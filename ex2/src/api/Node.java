@@ -1,16 +1,14 @@
-package tests;
+package api;
 
-import api.geo_location;
-import api.node_data;
 
-public class node_test implements node_data {
+public class Node implements node_data {
     int key;
     geo_location location;
     double weight;
     String info;
     int tag;
 
-    public node_test(int key) {
+    public Node(int key) {
         this.key = key;
     }
 

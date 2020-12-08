@@ -1,4 +1,4 @@
-/*
+
 package tests;
 
 import org.junit.jupiter.api.*;
@@ -11,7 +11,10 @@ class EdgeTest {
 
     @BeforeEach
     void setup() {
-        e = new Edge(1,9,10);
+        node_data n1 =new Node(1);
+        node_data n2 =new Node(9);
+
+        e = new Edge(n1,n2,10);
     }
 
     @Test
@@ -46,4 +49,3 @@ class EdgeTest {
     }
 }
 
- */

@@ -15,14 +15,14 @@ class DWGraph_DSTest {
         graph = new DWGraph_DS();
         node_data n;
         for (int i = 0; i < 10; i++) {
-            n = new node_test(i);
+            n = new Node(i);
             graph.addNode(n);
         }
     }
 
     @Test
     void getNode() {
-        node_test n = new node_test(10);
+        Node n = new Node(10);
         graph.addNode(n);
         assertEquals(n, graph.getNode(10));
         assertEquals(null, graph.getNode(11));

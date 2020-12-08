@@ -13,7 +13,7 @@ public class DWGraph_DSAlgoTest {
     void setup() {
         graph_ds = new DWGraph_DS();
         for (int i = 0; i < 5; i++) {
-            node_data n = new node_test(i);
+            node_data n = new Node(i);
             graph_ds.addNode(n);
         }
         graph_ds.connect(0, 1, 1);
