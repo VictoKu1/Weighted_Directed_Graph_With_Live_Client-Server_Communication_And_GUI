@@ -11,6 +11,7 @@ public class DWGraph_DSAlgoTest {
 
     @BeforeEach
     void setup() {
+        ag = new DWGraph_Algo();
         graph_ds = new DWGraph_DS();
         for (int i = 0; i < 5; i++) {
             node_data n = new Node(i);

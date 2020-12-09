@@ -46,12 +46,11 @@ public class MyFrame extends JFrame {
         int w = this.getWidth();
         int h = this.getHeight();
         g.clearRect(0, 0, w, h);
-        //	updateFrame();
+        updateFrame();
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
         drawInfo(g);
-
     }
 
     private void drawInfo(Graphics g) {
@@ -60,7 +59,8 @@ public class MyFrame extends JFrame {
         for (int i = 0; i < str.size(); i++) {
             g.drawString(str.get(i) + " dt: " + dt, 100, 60 + i * 20);
         }
-
+        int time = (int)_ar.getTime_left()/1000;
+        g.drawString("time left : "+time + "s",this.getWidth()-150,50);
     }
 
     private void drawGraph(Graphics g) {
@@ -97,7 +97,7 @@ public class MyFrame extends JFrame {
 
                     geo_location fp = this._w2f.world2frame(c);
                     g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
-                    //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
+                    	//g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
 
                 }
             }
@@ -107,14 +107,22 @@ public class MyFrame extends JFrame {
     private void drawAgants(Graphics g) {
         List<CL_Agent> rs = _ar.getAgents();
         //	Iterator<OOP_Point3D> itr = rs.iterator();
-        g.setColor(Color.red);
+        Color[] colors = new Color[]{Color.red,Color.BLACK,Color.BLUE,Color.CYAN};
         int i = 0;
+        String a = "";
+        Font font = new Font("Ariel",Font.PLAIN,15);
+        g.setFont(font);
+        g.drawString("Agents : ",50,50);
         while (rs != null && i < rs.size()) {
+            g.setColor(colors[i%4]);
+            a = "id: " + rs.get(i).getID() + "  score: " + rs.get(i).getValue();
+            font = new Font("Ariel",Font.PLAIN,15);
+            g.setFont(font);
+            g.drawString(a,50,70+i*15);
             geo_location c = rs.get(i).getLocation();
             int r = 8;
             i++;
             if (c != null) {
-
                 geo_location fp = this._w2f.world2frame(c);
                 g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
             }

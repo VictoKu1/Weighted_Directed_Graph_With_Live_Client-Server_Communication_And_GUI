@@ -1,16 +1,20 @@
 package api;
 
+import java.util.Objects;
+
 public class Edge implements edge_data {
-    node_data src;
-    node_data dest;
+    Node src;
+    Node dest;
     String info;
     double weight;
     int tag;
 
     public Edge(node_data n1, node_data n2, double weight) {
-        this.src = n1;
-        dest = n2;
+        this.src = (Node) n1;
+        dest = (Node) n2;
         this.weight = weight;
+        info = "";
+        tag = 0;
     }
 
     /**
@@ -82,6 +86,34 @@ public class Edge implements edge_data {
     @Override
     public void setTag(int t) {
         this.tag = t;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return Double.compare(edge.weight, weight) == 0 &&
+                tag == edge.tag &&
+                src.equals( edge.src) &&
+                dest.equals( edge.dest) &&
+                info.equals(edge.info);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(src, dest, info, weight, tag);
+    }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "src=" + src.getKey() +
+                ", dest=" + dest.getKey() +
+                ", info='" + info + '\'' +
+                ", weight=" + weight +
+                ", tag=" + tag +
+                '}';
     }
 }
 

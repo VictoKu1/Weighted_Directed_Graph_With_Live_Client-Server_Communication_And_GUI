@@ -1,5 +1,7 @@
 package api;
 
+import java.util.Objects;
+
 public class Location implements geo_location {
     private double x, y, z;
 
@@ -36,5 +38,20 @@ public class Location implements geo_location {
         double sum = dx * dx + dy * dy + dz * dz;
         double ans = Math.sqrt(sum);
         return ans;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return Double.compare(location.x, x) == 0 &&
+                Double.compare(location.y, y) == 0 &&
+                Double.compare(location.z, z) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
     }
 }
