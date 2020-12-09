@@ -8,30 +8,30 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     private directed_weighted_graph g;
 
     /*
-     *   Constructor method which initializes as new WGraph_DS object the directed_weighted_graph g parameter .
+     *Constructor method which initializes as new WGraph_DS object the directed_weighted_graph g parameter .
      */
     public DWGraph_Algo() {
         g = new DWGraph_DS();
     }
 
-    /**
-     * Method which make the parameter this.g to point on the inputted graph g .
+    /*
+     *Method which make the parameter this.g to point on the inputted graph g .
      */
     @Override
     public void init(directed_weighted_graph g) {
         this.g = g;
     }
 
-    /**
-     * Method which returns a pointer to the this.g graph this class is working on .
+    /*
+     *Method which returns a pointer to the this.g graph this class is working on .
      */
     @Override
     public directed_weighted_graph getGraph() {
         return this.g;
     }
 
-    /**
-     * Compute a deep copy of this weighted graph.
+    /*
+     *Compute a deep copy of this weighted graph.
      */
     @Override
     public directed_weighted_graph copy() {
@@ -41,6 +41,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return g1;
     }
 
+    /*
+     *Method hard copy the nodes from the graph contaied in this class to the given target graph.
+     */
     private void copyNodes(directed_weighted_graph target) {
         Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
@@ -50,6 +53,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
+    /*
+     *Method hard copy the given node and returns it.
+     */
     private node_data copyNode(node_data fromNode) {
         node_data copiedNode = new Node(fromNode.getKey());
         copiedNode.setInfo(fromNode.getInfo());
@@ -59,6 +65,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return copiedNode;
     }
 
+     /*
+     *Method performs a copy of the edges the contained in this class graph to the given graph.
+     */
     private void copyEdges(directed_weighted_graph target) {
         Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
@@ -72,11 +81,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
-    /**
-     * Returns true if and only if (iff) there is a valid path from each node to each
-     * other node. NOTE: assume directional graph (all n*(n-1) ordered pairs).
-     *
-     * @return
+    /*
+     *Returns true if and only if (iff) there is a valid path from each node to each other node. NOTE: assume directional graph (all n*(n-1) ordered pairs).
      */
     @Override
     public boolean isConnected() {
