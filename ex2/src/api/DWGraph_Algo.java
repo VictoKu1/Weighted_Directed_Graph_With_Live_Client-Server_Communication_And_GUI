@@ -106,6 +106,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return true;
     }
 
+    /*
+     *Method which implements the DFS algorithm and returns the time on which the algorithm finished his job.
+     */
     private Integer DFSFromNode(node_data src) {
         defaultValuesForEachNode();
         Integer currentTime = new Integer(0);
@@ -114,6 +117,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return currentTime;
     }
 
+    /*
+     *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
+     */
     private node_data getTheNodeWithHighestEndTime(Integer highestTime) {
 
         Iterator<node_data> itr = getGraph().getV().iterator();
@@ -126,11 +132,17 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return null;
     }
 
+    /*
+     *Sets all the Tag's and Info's parameters of each node to it's default value .
+     */
     private void defaultValuesForEachNode() {
         defaultTagForEachNode();
         defaultInfoForEachNode();
     }
 
+    /*
+     *Sets all the Tag parameters of each node to their default value .
+     */
     private void defaultTagForEachNode() {
         Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
@@ -139,6 +151,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
+    /*
+     *Sets all the Info parameters of each node to their default value .
+     */
     private void defaultInfoForEachNode() {
         Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
@@ -147,14 +162,23 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
+    /*
+     *Sets the Tag parameter of the inputted node to default value.
+     */
     private void setTagToDefault(node_data defaultedNode) {
         defaultedNode.setTag(-1);
     }
 
+    /*
+     *Sets the Info parameter of the inputted node to default value.
+     */
     private void setInfoToDefault(node_data defaultedNode) {
         defaultedNode.setInfo("");
     }
 
+    /*
+     *Straightly implements the DFS algorithm .
+     */
     private void helpDFS(node_data src, Integer currentTime, Stack<node_data> stk) {
         if (src.getInfo().equals("P")) {
             return;
@@ -174,6 +198,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         stk.pop();
     }
 
+    /*
+     *Boolean method which checks if there are still some nodes left untouched after running the DFS algorithm the determine the connectivity of the graph .
+     */
     private boolean someNodeWasNotSeenByTheDFSAlgorithm() {
         Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
