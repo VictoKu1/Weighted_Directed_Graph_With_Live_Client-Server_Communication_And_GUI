@@ -29,6 +29,7 @@ public class Arena {
     private List<String> _info;
     private static Point3D MIN = new Point3D(0, 100, 0);
     private static Point3D MAX = new Point3D(0, 100, 0);
+    private long time_left;
 
     public Arena() {
         ;
@@ -52,6 +53,14 @@ public class Arena {
     public void setGraph(directed_weighted_graph g) {
         this._gg = g;
     }//init();}
+
+    public long getTime_left() {
+        return time_left;
+    }
+
+    public void setTime_left(long time_left) {
+        this.time_left = time_left;
+    }
 
     private void init() {
         MIN = null;

@@ -1,6 +1,8 @@
 package api;
 
 
+import java.util.Objects;
+
 public class Node implements node_data {
     int key;
     geo_location location;
@@ -10,6 +12,8 @@ public class Node implements node_data {
 
     public Node(int key) {
         this.key = key;
+        this.tag = -1;
+        this.info = "";
     }
 
     @Override
@@ -101,6 +105,33 @@ public class Node implements node_data {
     @Override
     public void setTag(int t) {
         this.tag = t;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return key == node.key &&
+                Double.compare(node.weight, weight) == 0 &&
+                tag == node.tag &&
+                location.equals(node.location) &&
+                info.equals(node.info);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key, location, weight, info, tag);
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "key=" + key +
+                ", location=" + location.toString() +
+                ", weight=" + weight +
+                ", info='" + info + '\'' +
+                ", tag=" + tag +
+                '}';
     }
 }

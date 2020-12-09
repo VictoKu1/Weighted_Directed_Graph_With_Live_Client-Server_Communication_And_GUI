@@ -15,14 +15,21 @@ import java.util.List;
 public class Ex2_Client implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
+    private long id;
+    private int game_id;
 
     public static void main(String[] a) {
+
         Thread client = new Thread(new Ex2_Client());
         client.start();
     }
 
     @Override
     public void run() {
+        Input_Frame input_frame = new Input_Frame("Start the game:");
+        input_frame.start();
+
+
         int scenario_num = 11;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         //	int id = 999;
@@ -35,12 +42,13 @@ public class Ex2_Client implements Runnable {
         game.startGame();
         _win.setTitle("Ex2 - OOP: (NONE trivial Solution) " + game.toString());
         int ind = 0;
-        long dt = 100;
+        long dt = 1000;
 
         while (game.isRunning()) {
             moveAgants(game, gg);
             try {
                 if (ind % 1 == 0) {
+                    _ar.setTime_left(game.timeToEnd());
                     _win.repaint();
                 }
                 Thread.sleep(dt);
@@ -118,8 +126,6 @@ public class Ex2_Client implements Runnable {
         _win = new MyFrame("test Ex2");
         _win.setSize(1000, 700);
         _win.update(_ar);
-
-
         _win.show();
         String info = game.toString();
         JSONObject line;
