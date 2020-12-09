@@ -2,6 +2,7 @@ package api;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 public class DWGraph_Algo implements dw_graph_algorithms {
     private directed_weighted_graph g;
@@ -41,7 +42,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     private void copyNodes(directed_weighted_graph target) {
-        Iterator<node_data> itr = this.g.getV().iterator();
+        Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
             node_data fromNode = itr.next();
             node_data copiedNode = copyNode(fromNode);
@@ -59,9 +60,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     private void copyEdges(directed_weighted_graph target) {
-        Iterator<node_data> itr = this.g.getV().iterator();
+        Iterator<node_data> itr = getGraph().getV().iterator();
         while (itr.hasNext()) {
-            Iterator<edge_data> itr1 = this.g.getE(itr.next().getKey()).iterator();
+            Iterator<edge_data> itr1 = getGraph().getE(itr.next().getKey()).iterator();
             while (itr1.hasNext()) {
                 edge_data fromEdge = itr1.next();
                 target.connect(fromEdge.getSrc(), fromEdge.getDest(), fromEdge.getWeight());
@@ -79,6 +80,107 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean isConnected() {
+        if (getGraph().nodeSize() == 0 || getGraph().nodeSize() == 1 || getGraph().edgeSize() == getGraph().nodeSize() * (getGraph().nodeSize() - 1)) {
+            return true;
+        }
+        if (getGraph().edgeSize() < getGraph().nodeSize()) {
+            return false;
+        }
+        defaultValuesForEachNode();
+        Integer highestTime = DFSFromNode(getGraph().getV().iterator().next());
+        if (someNodeWasNotSeenByTheDFSAlgorithm()) {
+            defaultValuesForEachNode();
+            return false;
+        }
+        ((DWGraph_DS) (getGraph())).Transpose();
+        node_data newSourceLocation = getTheNodeWithHighestEndTime(highestTime);
+        defaultValuesForEachNode();
+        DFSFromNode(newSourceLocation);
+        if (someNodeWasNotSeenByTheDFSAlgorithm()) {
+            ((DWGraph_DS) (getGraph())).Transpose();
+            defaultValuesForEachNode();
+            return false;
+        }
+        ((DWGraph_DS) (getGraph())).Transpose();
+        defaultValuesForEachNode();
+        return true;
+    }
+
+    private Integer DFSFromNode(node_data src) {
+        defaultValuesForEachNode();
+        Integer currentTime = new Integer(0);
+        Stack<node_data> stk = new Stack<node_data>();
+        helpDFS(src, currentTime, stk);
+        return currentTime;
+    }
+
+    private node_data getTheNodeWithHighestEndTime(Integer highestTime) {
+
+        Iterator<node_data> itr = getGraph().getV().iterator();
+        while (itr.hasNext()) {
+            node_data node = itr.next();
+            if (node.getTag() == highestTime.intValue()) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private void defaultValuesForEachNode() {
+        defaultTagForEachNode();
+        defaultInfoForEachNode();
+    }
+
+    private void defaultTagForEachNode() {
+        Iterator<node_data> itr = getGraph().getV().iterator();
+        while (itr.hasNext()) {
+            node_data defaultedNode = itr.next();
+            setTagToDefault(defaultedNode);
+        }
+    }
+
+    private void defaultInfoForEachNode() {
+        Iterator<node_data> itr = getGraph().getV().iterator();
+        while (itr.hasNext()) {
+            node_data defaultedNode = itr.next();
+            setInfoToDefault(defaultedNode);
+        }
+    }
+
+    private void setTagToDefault(node_data defaultedNode) {
+        defaultedNode.setTag(-1);
+    }
+
+    private void setInfoToDefault(node_data defaultedNode) {
+        defaultedNode.setInfo("");
+    }
+
+    private void helpDFS(node_data src, Integer currentTime, Stack<node_data> stk) {
+        if (src.getInfo().equals("P")) {
+            return;
+        }
+        currentTime++;
+        src.setTag(currentTime);
+        src.setInfo("P");
+        stk.push(src);
+        Iterator<edge_data> itr = getGraph().getE(src.getKey()).iterator();
+        while (itr.hasNext()) {
+            edge_data edge = itr.next();
+            helpDFS(getGraph().getNode(edge.getDest()), currentTime, stk);
+        }
+        currentTime++;
+        src.setInfo("P");
+        src.setTag(currentTime);
+        stk.pop();
+    }
+
+    private boolean someNodeWasNotSeenByTheDFSAlgorithm() {
+        Iterator<node_data> itr = getGraph().getV().iterator();
+        while (itr.hasNext()) {
+            if (itr.next().getInfo().equals("")) {
+                return true;
+            }
+        }
         return false;
     }
 
