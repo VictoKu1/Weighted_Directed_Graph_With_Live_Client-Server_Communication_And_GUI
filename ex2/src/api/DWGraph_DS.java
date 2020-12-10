@@ -82,7 +82,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         nodes.put(n.getKey(), n);
         mc++;
         Node_buffer nb = new Node_buffer(n);
-        nb_list.put(n.getKey(),nb);
+        nb_list.put(n.getKey(), nb);
     }
 
     /**
@@ -238,9 +238,10 @@ public class DWGraph_DS implements directed_weighted_graph {
                 mc == that.mc &&
                 b;
     }
-    private boolean nodes_equals(HashMap<Integer, node_data> other,HashMap<Integer, Node_buffer> nb){
+
+    private boolean nodes_equals(HashMap<Integer, node_data> other, HashMap<Integer, Node_buffer> nb) {
         boolean b = true;
-        for (int key:nodes.keySet()) {
+        for (int key : nodes.keySet()) {
             b &= (other.containsKey(key));
             if (!b)
                 return false;
@@ -264,6 +265,7 @@ public class DWGraph_DS implements directed_weighted_graph {
             this.edges = new HashMap<>();
             this.neighbors = new ArrayList<>();
         }
+
         /**
          * this function check if the key is a neighbor of this node
          *
@@ -343,9 +345,10 @@ public class DWGraph_DS implements directed_weighted_graph {
                     edges_equals(that.edges) &&
                     neighbors.equals(that.neighbors);
         }
-        private boolean edges_equals(HashMap<Integer, Edge> other){
+
+        private boolean edges_equals(HashMap<Integer, Edge> other) {
             boolean b = true;
-            for (int key:edges.keySet()) {
+            for (int key : edges.keySet()) {
                 b &= (other.containsKey(key));
                 if (!b)
                     return false;
@@ -361,5 +364,4 @@ public class DWGraph_DS implements directed_weighted_graph {
     }
 
 }
-
 

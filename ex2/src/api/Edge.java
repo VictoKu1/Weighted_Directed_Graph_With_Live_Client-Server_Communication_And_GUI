@@ -95,8 +95,8 @@ public class Edge implements edge_data {
         Edge edge = (Edge) o;
         return Double.compare(edge.weight, weight) == 0 &&
                 tag == edge.tag &&
-                src.equals( edge.src) &&
-                dest.equals( edge.dest) &&
+                src.equals(edge.src) &&
+                dest.equals(edge.dest) &&
                 info.equals(edge.info);
     }
 
@@ -116,4 +116,3 @@ public class Edge implements edge_data {
                 '}';
     }
 }
-

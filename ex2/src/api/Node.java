@@ -115,8 +115,8 @@ public class Node implements node_data {
         return key == node.key &&
                 Double.compare(node.weight, weight) == 0 &&
                 tag == node.tag &&
-                location.equals( node.location) &&
-                info.equals( node.info);
+                location.equals(node.location) &&
+                info.equals(node.info);
     }
 
     @Override
