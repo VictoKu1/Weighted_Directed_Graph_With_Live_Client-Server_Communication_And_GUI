@@ -35,8 +35,8 @@ public class MyFrame extends JFrame {
     }
 
     private void updateFrame() {
-        Range rx = new Range(20, this.getWidth() - 20);
-        Range ry = new Range(this.getHeight() - 10, 150);
+        Range rx = new Range(30, this.getWidth() - 30);
+        Range ry = new Range(this.getHeight() - 30, 150);
         Range2D frame = new Range2D(rx, ry);
         directed_weighted_graph g = _ar.getGraph();
         _w2f = Arena.w2f(g, frame);
