@@ -108,7 +108,7 @@ class DWGraph_DSTest {
     }
 
     @Test
-    void equals() {
+    void equals(){
         DWGraph_DS graph2 = new DWGraph_DS();
         node_data n;
         for (int i = 0; i < 10; i++) {
@@ -116,14 +116,14 @@ class DWGraph_DSTest {
             n.setLocation(new Location());
             graph2.addNode(n);
         }
-        graph.connect(0, 1, 10);
-        graph.connect(0, 3, 20);
-        graph.connect(7, 5, 9);
-        graph.connect(4, 3, 6);
-        graph2.connect(0, 1, 10);
-        graph2.connect(0, 3, 20);
-        graph2.connect(7, 5, 9);
-        graph2.connect(4, 3, 6);
+        graph.connect(0,1,10);
+        graph.connect(0,3,20);
+        graph.connect(7,5,9);
+        graph.connect(4,3,6);
+        graph2.connect(0,1,10);
+        graph2.connect(0,3,20);
+        graph2.connect(7,5,9);
+        graph2.connect(4,3,6);
         assert graph.equals(graph2);
     }
 

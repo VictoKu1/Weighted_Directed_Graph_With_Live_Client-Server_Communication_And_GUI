@@ -19,7 +19,6 @@ public class Ex2_Client implements Runnable {
     private int game_id;
 
     public static void main(String[] a) {
-
         Thread client = new Thread(new Ex2_Client());
         client.start();
     }
