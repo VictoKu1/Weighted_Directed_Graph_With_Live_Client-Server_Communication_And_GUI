@@ -9,11 +9,26 @@ public class Node implements node_data {
     double weight;
     String info;
     int tag;
+    private node_data parent;
 
     public Node(int key) {
         this.key = key;
         this.tag = -1;
         this.info = "";
+    }
+
+    /*
+     *  Returns this node's parent parameter .
+     */
+    public node_data getParent() {
+        return this.parent;
+    }
+
+    /*
+     *  Sets this node's parent parameter to the given node_info type value .
+     */
+    public void setParent(node_data newUpdatedParnet) {
+        this.parent = newUpdatedParnet;
     }
 
     @Override
@@ -115,8 +130,8 @@ public class Node implements node_data {
         return key == node.key &&
                 Double.compare(node.weight, weight) == 0 &&
                 tag == node.tag &&
-                location.equals( node.location) &&
-                info.equals( node.info);
+                location.equals(node.location) &&
+                info.equals(node.info);
     }
 
     @Override

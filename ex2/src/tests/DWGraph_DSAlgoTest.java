@@ -27,7 +27,7 @@ public class DWGraph_DSAlgoTest {
 
     @Test
     void getGraph() {
-        assertEquals(null, ag.getGraph());
+        assertEquals(new DWGraph_Algo().getGraph(), ag.getGraph());
         ag.init(graph_ds);
         assertEquals(graph_ds, ag.getGraph());
     }
