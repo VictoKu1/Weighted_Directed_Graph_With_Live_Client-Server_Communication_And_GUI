@@ -180,14 +180,14 @@ public class DWGraph_DSAlgoTest {
         directed_weighted_graph g = pathTestGraphCreator();
         dw_graph_algorithms wga = new DWGraph_Algo();
         wga.init(g);
-        String str = "g0.obj";
+        String str ="/home/nonofurbusiness/Desktop/graph.json";
         wga.save(str);
         directed_weighted_graph g1 = wga.copy();
         dw_graph_algorithms wga1 = new DWGraph_Algo();
-        wga.load(str);
-        assertEquals(g1, wga.getGraph());
+        wga1.load(str);
+        assertEquals(g1, wga1.getGraph());
         g1.removeNode(0);
-        assertNotEquals(g1, wga.getGraph());
+        assertNotEquals(g1, wga1.getGraph());
     }
 }
 

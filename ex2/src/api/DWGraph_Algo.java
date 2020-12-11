@@ -1,9 +1,14 @@
 package api;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+
+import com.google.gson.*;
 
 public class DWGraph_Algo implements dw_graph_algorithms {
     private directed_weighted_graph g;
@@ -97,7 +102,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         if (this.g.nodeSize() == 0 || this.g.nodeSize() == 1 || this.g.edgeSize() == this.g.nodeSize() * (this.g.nodeSize() - 1)) {
             return true;
         }
-        if (this.g.edgeSize() < this.g.nodeSize()-1) {
+        if (this.g.edgeSize() < this.g.nodeSize() - 1) {
             return false;
         }
         defaultValuesForEachNode();
@@ -130,20 +135,20 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         helpDFS(src, currentTime, stk);
         return currentTime;
     }
-
-    /*
-     *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
-     */
-    private node_data getTheNodeWithHighestEndTime(Integer highestTime) {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            node_data node = itr.next();
-            if (node.getTag() == highestTime.intValue()) {
-                return node;
-            }
-        }
-        return null;
-    }
+//
+//    /*
+//     *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
+//     */
+//    private node_data getTheNodeWithHighestEndTime(Integer highestTime) {
+//        Iterator<node_data> itr = this.g.getV().iterator();
+//        while (itr.hasNext()) {
+//            node_data node = itr.next();
+//            if (node.getTag() == highestTime.intValue()) {
+//                return node;
+//            }
+//        }
+//        return null;
+//    }
 
     /*
      *Sets all the Tag's and Info's parameters of each node to it's default value .
@@ -363,9 +368,16 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean save(String file) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(this.g, writer);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
-
     }
+
 
     /**
      * This method load a graph to this graph algorithm.
@@ -378,6 +390,14 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean load(String file) {
+        try {
+            Gson gson = new Gson();
+            Reader reader = Files.newBufferedReader(Paths.get(file));
+            this.g = gson.fromJson(reader, DWGraph_DS.class);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }
