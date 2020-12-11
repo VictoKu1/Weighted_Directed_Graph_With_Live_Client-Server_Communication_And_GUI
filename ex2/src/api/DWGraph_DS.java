@@ -1,5 +1,7 @@
 package api;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,10 +22,10 @@ public class DWGraph_DS implements directed_weighted_graph {
         mc = 0;
         transpose = false;
     }
-
     /**
      * transpose the graph
      */
+
     public void Transpose() {
         transpose = !transpose;
     }
@@ -98,7 +100,7 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void connect(int src, int dest, double w) {
-        if (w < 0) return;
+        if (w < 0 || src == dest) return;
         if (this.getNode(src) != null && this.getNode(dest) != null) {
             if (!(nb_list.get(src).hasNi(dest))) num_edge++;
             nb_list.get(src).addNi(nodes.get(dest), w, true);
@@ -249,6 +251,7 @@ public class DWGraph_DS implements directed_weighted_graph {
             b &= (other.containsKey(key));
             if (!b)
                 return false;
+            b &= Objects.equals(nodes.get(key), (other.get(key)));
             b &= (nb_list.get(key).equals(nb.get(key)));
         }
         return b;

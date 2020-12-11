@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Node implements node_data {
     int key;
-    geo_location location;
+    Location location;
     double weight;
     String info;
     int tag;
@@ -54,7 +54,7 @@ public class Node implements node_data {
      */
     @Override
     public void setLocation(geo_location p) {
-        this.location = p;
+        this.location = ((Location) (p));
 
     }
 
@@ -130,7 +130,7 @@ public class Node implements node_data {
         return key == node.key &&
                 Double.compare(node.weight, weight) == 0 &&
                 tag == node.tag &&
-                location.equals(node.location) &&
+                Objects.equals(location,node.location) &&
                 info.equals(node.info);
     }
 

@@ -1,6 +1,7 @@
 package api;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
@@ -391,13 +392,25 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean load(String file) {
         try {
-            Gson gson = new Gson();
+            GsonBuilder gsonBuilder = new GsonBuilder();
             Reader reader = Files.newBufferedReader(Paths.get(file));
+            Node_dataDeserializer node_dataDeserializer = new Node_dataDeserializer();
+            gsonBuilder.registerTypeAdapter(node_data.class, node_dataDeserializer);
+            Gson gson = gsonBuilder.create();
             this.g = gson.fromJson(reader, DWGraph_DS.class);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
+    }
+    // for reading the json input and building a node
+    private class Node_dataDeserializer implements JsonDeserializer<node_data>{
+        @Override
+        public node_data deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            Node node =  jsonDeserializationContext.deserialize(jsonObject,Node.class);
+            return node;
+        }
     }
 }

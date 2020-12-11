@@ -31,6 +31,17 @@ class DWGraph_DSTest {
 
     @Test
     void connect() {
+        assert 0 == graph.edgeSize();
+        graph.connect(0,100,100);
+        assert 0 == graph.edgeSize();
+        graph.connect(100,101,100);
+        assert 0 == graph.edgeSize();
+        graph.connect(100,0,100);
+        assert 0 == graph.edgeSize();
+        graph.connect(0,0,100);
+        assert 0 == graph.edgeSize();
+        graph.connect(0,1,100);
+        assert 1 == graph.edgeSize();
     }
 
     @Test
@@ -60,6 +71,21 @@ class DWGraph_DSTest {
 
     @Test
     void getE() {
+        graph.connect(0,1,1);
+        graph.connect(0,2,2);
+        graph.connect(0,3,3);
+        graph.connect(0,4,4);
+        Collection<edge_data> edges = graph.getE(0);
+        assert  edges.size()== graph.edgeSize();
+        Edge[] ac_edges = new Edge[4];
+        Edge edge ;
+        for (int i = 0; i < ac_edges.length; i++) {
+            edge = new Edge(graph.getNode(0),graph.getNode(i+1),i+1);
+            ac_edges[i] = edge;
+        }
+        for (edge_data edgedata:edges) {
+            assert Objects.equals(ac_edges[edgedata.getDest()-1],edgedata);
+        }
     }
 
     @Test
