@@ -97,7 +97,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         if (this.g.nodeSize() == 0 || this.g.nodeSize() == 1 || this.g.edgeSize() == this.g.nodeSize() * (this.g.nodeSize() - 1)) {
             return true;
         }
-        if (this.g.edgeSize() < this.g.nodeSize()) {
+        if (this.g.edgeSize() < this.g.nodeSize()-1) {
             return false;
         }
         defaultValuesForEachNode();

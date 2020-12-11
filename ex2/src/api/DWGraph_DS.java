@@ -292,7 +292,6 @@ public class DWGraph_DS implements directed_weighted_graph {
                 edges.put(n2.getKey(), new Edge(node, n2, dis));
             } else
                 neighbors.add(n2.getKey());
-
         }
 
         /**
