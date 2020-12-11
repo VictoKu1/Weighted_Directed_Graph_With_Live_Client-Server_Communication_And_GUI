@@ -3,6 +3,8 @@ package tests;
 import api.*;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DWGraph_DSAlgoTest {
@@ -49,7 +51,8 @@ public class DWGraph_DSAlgoTest {
     @Test
     void shortestPathDist() {
         ag.init(graph_ds);
-        assertEquals(3, ag.shortestPathDist(0, 3));
+        assertEquals(4, ag.shortestPathDist(0, 3));
+        assertEquals(3, ag.shortestPathDist(1, 3));
         assertEquals(-1, ag.shortestPathDist(0, 100));
         assertEquals(-1, ag.shortestPathDist(100, 100));
         assertEquals(-1, ag.shortestPathDist(101, 100));

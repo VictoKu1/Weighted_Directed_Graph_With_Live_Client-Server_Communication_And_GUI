@@ -55,7 +55,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             node_data fromNode = itr.next();
             node_data copiedNode = copyNode(fromNode);
             target.addNode(copiedNode);
-
         }
     }
 
@@ -66,12 +65,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         node_data copiedNode = new Node(fromNode.getKey());
         copiedNode.setInfo(fromNode.getInfo() + "");
         if (fromNode.getLocation() != null) {
-            copiedNode.setLocation(new Location(fromNode.getLocation().x(), fromNode.getLocation().y(), fromNode.getLocation().z()));
+            geo_location location = new Location(fromNode.getLocation().x(), fromNode.getLocation().y(), fromNode.getLocation().z());
+            copiedNode.setLocation(location);
         }
         copiedNode.setTag(fromNode.getTag());
         copiedNode.setWeight(fromNode.getWeight());
         return copiedNode;
-
     }
 
     /*
@@ -86,7 +85,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 target.connect(fromEdge.getSrc(), fromEdge.getDest(), fromEdge.getWeight());
                 target.getEdge(fromEdge.getSrc(), fromEdge.getDest()).setInfo(fromEdge.getInfo());
                 target.getEdge(fromEdge.getSrc(), fromEdge.getDest()).setTag(fromEdge.getTag());
-
             }
         }
     }
@@ -106,7 +104,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         node_data sourceLocation = this.g.getV().iterator().next();
         DFSFromNode(sourceLocation);
         if (someNodeWasNotSeenByTheDFSAlgorithm()) {
-
             defaultValuesForEachNode();
             return false;
         }
@@ -116,7 +113,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         if (someNodeWasNotSeenByTheDFSAlgorithm()) {
             ((DWGraph_DS) (this.g)).Transpose();
             defaultValuesForEachNode();
-
             return false;
         }
         ((DWGraph_DS) (this.g)).Transpose();
@@ -131,7 +127,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         defaultValuesForEachNode();
         Integer currentTime = new Integer(0);
         Stack<node_data> stk = new Stack<node_data>();
-
         helpDFS(src, currentTime, stk);
         return currentTime;
     }
@@ -140,7 +135,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
      */
     private node_data getTheNodeWithHighestEndTime(Integer highestTime) {
-
         Iterator<node_data> itr = this.g.getV().iterator();
         while (itr.hasNext()) {
             node_data node = itr.next();
@@ -199,7 +193,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Straightly implements the DFS algorithm .
      */
     private void helpDFS(node_data src, Integer currentTime, Stack<node_data> stk) {
-
         if (src.getInfo().equals("P")) {
             return;
         }
@@ -209,10 +202,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         stk.push(src);
         Iterator<edge_data> itr = this.g.getE(src.getKey()).iterator();
         while (itr.hasNext()) {
-
             edge_data edge = itr.next();
             if (edge == null) {
-
                 continue;
             }
             if (((DWGraph_DS) (this.g)).getTranspose()) {
@@ -221,7 +212,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 helpDFS(this.g.getNode(edge.getDest()), currentTime, stk);
             }
         }
-
         currentTime++;
         src.setInfo("P");
         src.setTag(currentTime);
@@ -251,10 +241,13 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public double shortestPathDist(int src, int dest) {
+        double answer = shortestPathDistNoParentDefaultingPart(src, dest);
+        setParentOfEveryNodeInGraphToDefault();
+        return answer;
+    }
+
+    private double shortestPathDistNoParentDefaultingPart(int src, int dest) {
         if (this.g.getNode(src) == null || this.g.getNode(dest) == null) {
-            return -1;
-        }
-        if (this.g.getEdge(src, dest) == null) {
             return -1;
         }
         if (src == dest) {
@@ -270,13 +263,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         Dijkstra(src);
         double answer = this.g.getNode(dest).getWeight();
         defaultValuesForEachNode();
-        setParentOfEveryNodeInGraphToDefault();
         return answer;
     }
 
     private void Dijkstra(int src) {
         setTheDistancesToInf();
-        this.g.getNode(src).setTag(0);
+        this.g.getNode(src).setWeight(0);
         LinkedList<node_data> queue = new LinkedList<node_data>();
         ((Node) (this.g.getNode(src))).setParent(null);
         queue.addLast(this.g.getNode(src));
@@ -313,7 +305,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 queue.addLast(node);
             }
         }
-
     }
 
     /*
@@ -339,8 +330,28 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public List<node_data> shortestPath(int src, int dest) {
-        return null;
+        double distance = shortestPathDist(src, dest);
+        if (distance == -1) {
+            return null;
+        }
+        List<node_data> list = new LinkedList<node_data>();
+        if (src == dest) {
+            list.add(this.g.getNode(src));
+            return list;
+        }
+        shortestPathDistNoParentDefaultingPart(src, dest);
+        pathBuilder(list, this.g.getNode(dest));
+        setParentOfEveryNodeInGraphToDefault();
+        return list;
+    }
 
+    private void pathBuilder(List<node_data> list, node_data dest) {
+        if (((Node) (dest)).getParent() == null) {
+            ((LinkedList<node_data>) (list)).addFirst(dest);
+            return;
+        }
+        ((LinkedList<node_data>) (list)).addFirst(dest);
+        pathBuilder(list, ((Node) (dest)).getParent());
     }
 
     /**
