@@ -4,10 +4,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import com.google.gson.*;
 
@@ -412,5 +409,48 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             Node node =  jsonDeserializationContext.deserialize(jsonObject,Node.class);
             return node;
         }
+    }
+    /**
+     * This method load a graph to this graph algorithm,
+     * given a String in json format from the game server
+     * add create a graph from it.
+     * @param g
+     */
+    public void load_graph(String g){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        json_des data  = gson.fromJson(g,json_des.class);
+        graph_creator(data);
+    }
+    // the graph creator given json_des
+    private void graph_creator(json_des data) {
+        g = new DWGraph_DS();
+        Node node ;
+        for (node_reader n: data.Nodes) {
+            node = new Node(n.id);
+            node.setLocation(new Location(n.pos));
+            g.addNode(node);
+        }
+        for (edge_reader e:data.Edges) {
+            g.connect(e.src,e.dest,e.w);
+        }
+    }
+    // a class that build to be like the graph json from the game server
+    private static class json_des {
+        private ArrayList<edge_reader> Edges;
+        private ArrayList<node_reader> Nodes;
+
+
+    }
+    // subclass for json_des represent an edge
+    private class edge_reader {
+        private int src;
+        private int dest;
+        private double w;
+    }
+    // subclass for json_des represent a node
+    private class node_reader {
+        private String pos ;
+        private int id;
     }
 }

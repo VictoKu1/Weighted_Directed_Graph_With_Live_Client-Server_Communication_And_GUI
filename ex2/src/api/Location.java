@@ -8,6 +8,13 @@ public class Location implements geo_location {
     public Location() {
         this(0, 0, 0);
     }
+    public Location(String s){
+      String[] arr = s.split(",");
+      this.x = Double.parseDouble(arr[0]);
+      this.y = Double.parseDouble(arr[1]);
+      this.z = Double.parseDouble(arr[2]);
+
+    }
 
     public Location(double x, double y, double z) {
         this.x = x;

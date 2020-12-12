@@ -1,9 +1,7 @@
 package gameClient;
 
 import Server.Game_Server_Ex2;
-import api.directed_weighted_graph;
-import api.edge_data;
-import api.game_service;
+import api.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,8 +17,14 @@ public class Ex2_Client implements Runnable {
     private int game_id;
 
     public static void main(String[] a) {
-        Thread client = new Thread(new Ex2_Client());
-        client.start();
+        //Thread client = new Thread(new Ex2_Client());
+        //client.start();
+        int scenario_num = 11;
+        game_service game = Game_Server_Ex2.getServer(scenario_num);
+        String g = game.getGraph();
+        System.out.println(g);
+        DWGraph_Algo ag = new DWGraph_Algo();
+        ag.load_graph(g);
     }
     @Override
     public void run() {
@@ -33,6 +37,7 @@ public class Ex2_Client implements Runnable {
         //	int id = 999;
         //	game.login(id);
         String g = game.getGraph();
+        System.out.println(g);
         String pks = game.getPokemons();
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         init(game);
