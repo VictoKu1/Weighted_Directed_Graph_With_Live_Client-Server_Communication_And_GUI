@@ -130,7 +130,7 @@ public class Node implements node_data {
         return key == node.key &&
                 Double.compare(node.weight, weight) == 0 &&
                 tag == node.tag &&
-                Objects.equals(location,node.location) &&
+                Objects.equals(location, node.location) &&
                 info.equals(node.info);
     }
 

@@ -183,7 +183,7 @@ public class DWGraph_DSAlgoTest {
         directed_weighted_graph g = pathTestGraphCreator();
         dw_graph_algorithms wga = new DWGraph_Algo();
         wga.init(g);
-        String str ="graph.json";
+        String str = "graph.json";
         wga.save(str);
         DWGraph_DS g1 = (DWGraph_DS) wga.copy();
         dw_graph_algorithms wga1 = new DWGraph_Algo();

@@ -68,45 +68,47 @@ public class CL_Agent {
     public int getSrcNode() {
         return this._curr_node.getKey();
     }
-    public String toJSON(){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(CL_Agent.class,new agent_serializer());
-        Gson gson = gsonBuilder.create();
-        String ans = gson.toJson(this);
-        ans = "{\"Agent\":" + ans +"}";
-        return ans;
 
-    }
-/*
     public String toJSON() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(CL_Agent.class,)
-        int d = this.getNextNode();
-        String ans = "{\"Agent\":{"
-                + "\"id\":" + this._id + ","
-                + "\"value\":" + this._value + ","
-                + "\"src\":" + this._curr_node.getKey() + ","
-                + "\"dest\":" + d + ","
-                + "\"speed\":" + this.getSpeed() + ","
-                + "\"pos\":\"" + _pos.toString() + "\""
-                + "}"
-                + "}";
+        gsonBuilder.registerTypeAdapter(CL_Agent.class, new agent_serializer());
+        Gson gson = gsonBuilder.create();
+        String ans = gson.toJson(this);
+        ans = "{\"Agent\":" + ans + "}";
         return ans;
+
     }
 
- */
-    private class agent_serializer implements JsonSerializer<CL_Agent>{
+    /*
+        public String toJSON() {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(CL_Agent.class,)
+            int d = this.getNextNode();
+            String ans = "{\"Agent\":{"
+                    + "\"id\":" + this._id + ","
+                    + "\"value\":" + this._value + ","
+                    + "\"src\":" + this._curr_node.getKey() + ","
+                    + "\"dest\":" + d + ","
+                    + "\"speed\":" + this.getSpeed() + ","
+                    + "\"pos\":\"" + _pos.toString() + "\""
+                    + "}"
+                    + "}";
+            return ans;
+        }
+
+     */
+    private class agent_serializer implements JsonSerializer<CL_Agent> {
 
         @Override
         public JsonElement serialize(CL_Agent cl_agent, Type type, JsonSerializationContext jsonSerializationContext) {
             JsonObject json = new JsonObject();
-            json.addProperty("id",cl_agent._id);
-            json.addProperty("value",cl_agent._value);
-            json.addProperty("src",cl_agent._curr_node.getKey());
-            json.addProperty("dest",cl_agent.getNextNode());
-            json.addProperty("speed",cl_agent._speed);
-            json.addProperty("pos",cl_agent._pos.toString());
-          return json;
+            json.addProperty("id", cl_agent._id);
+            json.addProperty("value", cl_agent._value);
+            json.addProperty("src", cl_agent._curr_node.getKey());
+            json.addProperty("dest", cl_agent.getNextNode());
+            json.addProperty("speed", cl_agent._speed);
+            json.addProperty("pos", cl_agent._pos.toString());
+            return json;
         }
     }
 

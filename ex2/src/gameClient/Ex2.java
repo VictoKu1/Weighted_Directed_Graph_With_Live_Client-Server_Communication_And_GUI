@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Ex2 implements Runnable{
+public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
 
@@ -17,6 +17,7 @@ public class Ex2 implements Runnable{
         Thread client = new Thread(new Ex2_Client());
         client.start();
     }
+
     @Override
     public void run() {
         Input_Frame input_frame = new Input_Frame("Start the game:");
@@ -49,6 +50,7 @@ public class Ex2 implements Runnable{
         System.out.println(res);
         System.exit(0);
     }
+
     // todo algorithm for moving agents
     private void init(game_service game) {
         String g = game.getGraph();

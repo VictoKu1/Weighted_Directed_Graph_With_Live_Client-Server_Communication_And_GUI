@@ -26,6 +26,7 @@ public class Ex2_Client implements Runnable {
         DWGraph_Algo ag = new DWGraph_Algo();
         ag.load_graph(g);
     }
+
     @Override
     public void run() {
         Input_Frame input_frame = new Input_Frame("Start the game:");

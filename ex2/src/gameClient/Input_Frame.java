@@ -16,7 +16,7 @@ public class Input_Frame extends JFrame {
 
     public synchronized boolean start() {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(300,100));
+        panel.setPreferredSize(new Dimension(300, 100));
         panel.setBackground(Color.BLACK);
         this.add(panel);
         this.getContentPane().setLayout(new FlowLayout());
@@ -42,7 +42,7 @@ public class Input_Frame extends JFrame {
                         game_id = Integer.parseInt(tf2.getText());
                         bool[0] = false;
                     } catch (IllegalArgumentException exception) {
-                        l.setFont(new Font("Ariel",Font.PLAIN,20));
+                        l.setFont(new Font("Ariel", Font.PLAIN, 20));
                         l.setForeground(Color.white);
                         l.setText("the input are not numbers");
                     }
@@ -51,6 +51,7 @@ public class Input_Frame extends JFrame {
         this.setVisible(false);
         return bool[0];
     }
+
     public synchronized long getLogin() {
         return login;
     }

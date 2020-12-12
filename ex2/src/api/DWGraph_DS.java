@@ -21,6 +21,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         mc = 0;
         transpose = false;
     }
+
     /**
      * transpose the graph
      */
@@ -238,6 +239,17 @@ public class DWGraph_DS implements directed_weighted_graph {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DWGraph_DS that = (DWGraph_DS) o;
+        Gson gson = new Gson();
+        String that1 = gson.toJson(that);
+        String this1 = gson.toJson(this);
+        if (that1.length() != this1.length()) {
+            return false;
+        }
+        for (int i = 0; i < this1.length(); i++) {
+            if (this1.charAt(i) != that1.charAt(i)) {
+                return false;
+            }
+        }
         boolean b = nodes_equals(that.nodes, that.nb_list);
         return num_edge == that.num_edge &&
                 mc == that.mc &&
@@ -250,7 +262,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         for (int key : nodes.keySet()) {
             if (!b)
                 return false;
-            b &= ((Node)(nodes.get(key))).equals ((Node)(other.get(key)));
+            b &= ((Node) (nodes.get(key))).equals((Node) (other.get(key)));
             b &= (nb_list.get(key).equals(nb.get(key)));
         }
         return b;
@@ -350,6 +362,7 @@ public class DWGraph_DS implements directed_weighted_graph {
                     edges_equals(that.edges) &&
                     neighbors_equal(that.neighbors);
         }
+
         private boolean edges_equals(HashMap<Integer, Edge> other) {
             boolean b = true;
             for (int key : edges.keySet()) {
@@ -360,7 +373,8 @@ public class DWGraph_DS implements directed_weighted_graph {
             }
             return b;
         }
-        private boolean neighbors_equal(ArrayList<Integer> other){
+
+        private boolean neighbors_equal(ArrayList<Integer> other) {
             HashSet<Integer> set1 = new HashSet<>(this.neighbors);
             HashSet<Integer> set2 = new HashSet<>(other);
             return set1.equals(set2);

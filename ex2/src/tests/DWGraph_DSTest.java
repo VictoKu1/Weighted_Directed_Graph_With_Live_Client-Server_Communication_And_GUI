@@ -32,15 +32,15 @@ class DWGraph_DSTest {
     @Test
     void connect() {
         assert 0 == graph.edgeSize();
-        graph.connect(0,100,100);
+        graph.connect(0, 100, 100);
         assert 0 == graph.edgeSize();
-        graph.connect(100,101,100);
+        graph.connect(100, 101, 100);
         assert 0 == graph.edgeSize();
-        graph.connect(100,0,100);
+        graph.connect(100, 0, 100);
         assert 0 == graph.edgeSize();
-        graph.connect(0,0,100);
+        graph.connect(0, 0, 100);
         assert 0 == graph.edgeSize();
-        graph.connect(0,1,100);
+        graph.connect(0, 1, 100);
         assert 1 == graph.edgeSize();
     }
 
@@ -71,20 +71,20 @@ class DWGraph_DSTest {
 
     @Test
     void getE() {
-        graph.connect(0,1,1);
-        graph.connect(0,2,2);
-        graph.connect(0,3,3);
-        graph.connect(0,4,4);
+        graph.connect(0, 1, 1);
+        graph.connect(0, 2, 2);
+        graph.connect(0, 3, 3);
+        graph.connect(0, 4, 4);
         Collection<edge_data> edges = graph.getE(0);
-        assert  edges.size()== graph.edgeSize();
+        assert edges.size() == graph.edgeSize();
         Edge[] ac_edges = new Edge[4];
-        Edge edge ;
+        Edge edge;
         for (int i = 0; i < ac_edges.length; i++) {
-            edge = new Edge(graph.getNode(0),graph.getNode(i+1),i+1);
+            edge = new Edge(graph.getNode(0), graph.getNode(i + 1), i + 1);
             ac_edges[i] = edge;
         }
-        for (edge_data edgedata:edges) {
-            assert Objects.equals(ac_edges[edgedata.getDest()-1],edgedata);
+        for (edge_data edgedata : edges) {
+            assert Objects.equals(ac_edges[edgedata.getDest() - 1], edgedata);
         }
     }
 
@@ -134,7 +134,7 @@ class DWGraph_DSTest {
     }
 
     @Test
-    void equals(){
+    void equals() {
         DWGraph_DS graph2 = new DWGraph_DS();
         node_data n;
         for (int i = 0; i < 10; i++) {
@@ -142,14 +142,14 @@ class DWGraph_DSTest {
             n.setLocation(new Location());
             graph2.addNode(n);
         }
-        graph.connect(0,1,10);
-        graph.connect(0,3,20);
-        graph.connect(7,5,9);
-        graph.connect(4,3,6);
-        graph2.connect(0,1,10);
-        graph2.connect(0,3,20);
-        graph2.connect(7,5,9);
-        graph2.connect(4,3,6);
+        graph.connect(0, 1, 10);
+        graph.connect(0, 3, 20);
+        graph.connect(7, 5, 9);
+        graph.connect(4, 3, 6);
+        graph2.connect(0, 1, 10);
+        graph2.connect(0, 3, 20);
+        graph2.connect(7, 5, 9);
+        graph2.connect(4, 3, 6);
         assert graph.equals(graph2);
     }
 
