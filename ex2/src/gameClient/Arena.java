@@ -32,7 +32,6 @@ public class Arena {
     private long time_left;
 
     public Arena() {
-        ;
         _info = new ArrayList<String>();
     }
 
