@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DWGraph_DS implements directed_weighted_graph {
@@ -248,12 +245,12 @@ public class DWGraph_DS implements directed_weighted_graph {
     }
 
     private boolean nodes_equals(HashMap<Integer, node_data> other, HashMap<Integer, Node_buffer> nb) {
-        boolean b = true;
+        boolean b = nodes.keySet().equals(other.keySet());
+        b &= this.nb_list.keySet().equals(nb.keySet());
         for (int key : nodes.keySet()) {
-            b &= (other.containsKey(key));
             if (!b)
                 return false;
-            b &= Objects.equals(nodes.get(key), (other.get(key)));
+            b &= ((Node)(nodes.get(key))).equals ((Node)(other.get(key)));
             b &= (nb_list.get(key).equals(nb.get(key)));
         }
         return b;
@@ -351,9 +348,8 @@ public class DWGraph_DS implements directed_weighted_graph {
             Node_buffer that = (Node_buffer) o;
             return node.equals(that.node) &&
                     edges_equals(that.edges) &&
-                    neighbors.equals(that.neighbors);
+                    neighbors_equal(that.neighbors);
         }
-
         private boolean edges_equals(HashMap<Integer, Edge> other) {
             boolean b = true;
             for (int key : edges.keySet()) {
@@ -363,6 +359,11 @@ public class DWGraph_DS implements directed_weighted_graph {
                 b &= (edges.get(key).equals(other.get(key)));
             }
             return b;
+        }
+        private boolean neighbors_equal(ArrayList<Integer> other){
+            HashSet<Integer> set1 = new HashSet<>(this.neighbors);
+            HashSet<Integer> set2 = new HashSet<>(other);
+            return set1.equals(set2);
         }
 
         @Override

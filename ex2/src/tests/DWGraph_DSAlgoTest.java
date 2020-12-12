@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -127,7 +128,9 @@ public class DWGraph_DSAlgoTest {
         wga.init(ge1);
         assertEquals(ge1, wga.copy());
         wga.init(g);
-        assertEquals(g, wga.copy());
+        DWGraph_DS gt = (DWGraph_DS) g;
+        DWGraph_DS gs = (DWGraph_DS) wga.copy();
+        assert gt.equals(gs);
     }
 
     @Test
@@ -180,9 +183,9 @@ public class DWGraph_DSAlgoTest {
         directed_weighted_graph g = pathTestGraphCreator();
         dw_graph_algorithms wga = new DWGraph_Algo();
         wga.init(g);
-        String str ="/home/nonofurbusiness/Desktop/graph.json";
+        String str ="graph.json";
         wga.save(str);
-        directed_weighted_graph g1 = wga.copy();
+        DWGraph_DS g1 = (DWGraph_DS) wga.copy();
         dw_graph_algorithms wga1 = new DWGraph_Algo();
         wga1.load(str);
         assertEquals(g1, wga1.getGraph());
