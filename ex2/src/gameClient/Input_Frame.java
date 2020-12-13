@@ -15,20 +15,17 @@ public class Input_Frame extends JFrame {
     }
 
     public synchronized boolean start() {
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(300, 100));
-        panel.setBackground(Color.BLACK);
-        this.add(panel);
+
         this.getContentPane().setLayout(new FlowLayout());
         JButton b = new JButton();
         JLabel l = new JLabel();
         JTextField tf1, tf2;
         tf1 = new JTextField("Login", 10);
         tf2 = new JTextField("Game ID", 10);
-        panel.add(b);
-        panel.add(tf1);
-        panel.add(tf2);
-        panel.add(l);
+        this.add(b);
+        this.add(tf1);
+        this.add(tf2);
+        this.add(l);
         this.pack();
         this.setVisible(true);
         final boolean[] bool = new boolean[1];
