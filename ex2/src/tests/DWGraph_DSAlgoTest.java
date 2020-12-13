@@ -3,9 +3,9 @@ package tests;
 import api.*;
 import org.junit.jupiter.api.*;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -192,5 +192,10 @@ public class DWGraph_DSAlgoTest {
         g1.removeNode(0);
         assertNotEquals(g1, wga1.getGraph());
     }
-}
 
+    @AfterAll
+    static void deleteFiles() {
+        new File("test.json").delete();
+        new File("graph.json").delete();
+    }
+}
