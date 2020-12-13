@@ -15,7 +15,6 @@ public class Input_Frame extends JFrame {
     }
 
     public synchronized boolean start() {
-
         this.getContentPane().setLayout(new FlowLayout());
         JButton b = new JButton();
         JLabel l = new JLabel();
