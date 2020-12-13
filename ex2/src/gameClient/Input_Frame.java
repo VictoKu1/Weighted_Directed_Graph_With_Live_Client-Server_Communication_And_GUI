@@ -42,6 +42,7 @@ public class Input_Frame extends JFrame {
                         l.setFont(new Font("Ariel", Font.PLAIN, 20));
                         l.setForeground(Color.white);
                         l.setText("the input are not numbers");
+
                     }
                 }
             });
