@@ -29,11 +29,11 @@ public class Ex2_Client implements Runnable {
 
     @Override
     public void run() {
-        Input_Frame input_frame = new Input_Frame("Start the game:");
-        input_frame.start();
+        //Input_Frame input_frame = new Input_Frame("Start the game:");
+        //input_frame.start();
 
 
-        int scenario_num = 11;
+        int scenario_num = 20;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         //	int id = 999;
         //	game.login(id);
@@ -77,6 +77,7 @@ public class Ex2_Client implements Runnable {
      */
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
         String lg = game.move();
+        System.out.println(lg);
         List<CL_Agent> log = Arena.getAgents(lg, gg);
         _ar.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
@@ -138,7 +139,9 @@ public class Ex2_Client implements Runnable {
             JSONObject ttt = line.getJSONObject("GameServer");
             int rs = ttt.getInt("agents");
             System.out.println(info);
+            System.out.println(game.getAgents());
             System.out.println(game.getPokemons());
+            System.out.println(game.getAgents());
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
             ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons());
             for (int a = 0; a < cl_fs.size(); a++) {

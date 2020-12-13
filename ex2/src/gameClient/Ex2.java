@@ -1,16 +1,20 @@
 package gameClient;
 
 import Server.Game_Server_Ex2;
+import api.DWGraph_Algo;
 import api.directed_weighted_graph;
 import api.game_service;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
+    private static HashMap<CL_Agent,Double> cost_matrix = new HashMap<>();
 
 
     public static void main(String[] args) {
@@ -31,7 +35,9 @@ public class Ex2 implements Runnable {
         _win.setTitle("level number : " + scenario_num);
         int ind = 0;
         long dt = 1000;
-
+        DWGraph_Algo ag = new DWGraph_Algo();
+        ag.load_graph(game.getGraph());
+        directed_weighted_graph gg = ag.getGraph();
         while (game.isRunning()) {
             //moveAgants(game, gg);
             try {
@@ -50,8 +56,81 @@ public class Ex2 implements Runnable {
         System.out.println(res);
         System.exit(0);
     }
+    // Todo first assignment of a  pokemon to every agent
+    // Todo update speed fo agent
+    // ToDo greedy
+   // (sub) todo loop : running through all the the pokemons and finding the best one
+   // (sub) todo add a pokemon flag for visited
+   // (sub) todo UnassignedCustomerExists (below)
+    // Nodes is a list of all the nodes in are situation node is a pokemon
+    // CostMatrix is a 2d matrix that hold the dest between one pokemon the all the others
+    // for more look at the code below
+   /*
+   public boolean UnassignedCustomerExists(Node[] Nodes) {
+        for (int i = 1; i < Nodes.length; i++) {
+            if (!Nodes[i].IsRouted)
+                return true;
+        }
+        return false;
+    }
 
-    // todo algorithm for moving agents
+    public void GreedySolution(Node[] Nodes, double[][] CostMatrix) {
+
+        double CandCost, EndCost;
+        int VehIndex = 0;
+
+        while (UnassignedCustomerExists(Nodes)) {
+
+            int CustIndex = 0;
+            Node Candidate = null;
+            double minCost = (float) Double.MAX_VALUE;
+
+            if (Vehicles[VehIndex].Route.isEmpty()) {
+                Vehicles[VehIndex].AddNode(Nodes[0]);
+            }
+
+            for (int i = 1; i <= NoOfCustomers; i++) {
+                if (Nodes[i].IsRouted == false) {
+                    if (Vehicles[VehIndex].CheckIfFits(Nodes[i].demand)) {
+                        CandCost = CostMatrix[Vehicles[VehIndex].CurLoc][i];
+                        if (minCost > CandCost) {
+                            minCost = CandCost;
+                            CustIndex = i;
+                            Candidate = Nodes[i];
+                        }
+                    }
+                }
+            }
+
+            if (Candidate == null) {
+                //Not a single Customer Fits
+                if (VehIndex + 1 < Vehicles.length) //We have more vehicles to assign
+                {
+                    if (Vehicles[VehIndex].CurLoc != 0) {//End this route
+                        EndCost = CostMatrix[Vehicles[VehIndex].CurLoc][0];
+                        Vehicles[VehIndex].AddNode(Nodes[0]);
+                        this.Cost += EndCost;
+                    }
+                    VehIndex = VehIndex + 1; //Go to next Vehicle
+                } else //We DO NOT have any more vehicle to assign. The problem is unsolved under these parameters
+                {
+                    System.out.println("\nThe rest customers do not fit in any Vehicle\n" +
+                            "The problem cannot be resolved under these constrains");
+                    System.exit(0);
+                }
+            } else {
+                Vehicles[VehIndex].AddNode(Candidate);//If a fitting Customer is Found
+                Nodes[CustIndex].IsRouted = true;
+                this.Cost += minCost;
+            }
+        }
+
+        EndCost = CostMatrix[Vehicles[VehIndex].CurLoc][0];
+        Vehicles[VehIndex].AddNode(Nodes[0]);
+        this.Cost += EndCost;
+
+    }
+    */
     private void init(game_service game) {
         String g = game.getGraph();
         String fs = game.getPokemons();
