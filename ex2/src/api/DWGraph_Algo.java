@@ -266,16 +266,15 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     public directed_weighted_graph dijkstraForAll(node_data src) {
         if (this.g.getNode(src.getKey()) != null) {
             if (this.g.getNode(src.getKey()).equals(src)) {
-                Iterator<node_data> itr = this.g.getV().iterator();
-                while (itr.hasNext()) {
-                    node_data target = itr.next();
-                    if (!target.equals(src)) {
-                        continue;
-                    }
-                    defaultValuesForEachNode();
-                    Dijkstra(src.getKey());
-                    defaultTagAndInfoForEachNode();
-                }
+                defaultValuesForEachNode();
+                Dijkstra(src.getKey());
+                defaultTagAndInfoForEachNode();
+                dw_graph_algorithms dwgal = new DWGraph_Algo();
+                dwgal.init(this.g);
+                directed_weighted_graph dwg = dwgal.copy();
+                defaultValuesForEachNode();
+                setParentOfEveryNodeInGraphToDefault();
+                return dwg;
             }
             return null;
         }
