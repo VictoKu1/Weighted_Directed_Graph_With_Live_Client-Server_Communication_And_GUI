@@ -9,6 +9,9 @@ import gameClient.util.Point3D;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
 
 public class CL_Agent {
     public static final double EPS = 0.0001;
@@ -22,9 +25,9 @@ public class CL_Agent {
     private node_data _curr_node;
     private directed_weighted_graph _gg;
     private CL_Pokemon _curr_fruit;
-    private long _sg_dt;
-
+   // private long _sg_dt;
     private double _value;
+    private Queue<node_data> _curr_path;
 
 
     public CL_Agent(directed_weighted_graph g, int start_node) {
@@ -155,7 +158,14 @@ public class CL_Agent {
         return _pos;
     }
 
+    public Queue<node_data> get_curr_path() {
+        return _curr_path;
+    }
 
+    public void set_curr_path(List<node_data> _curr_path,node_data node) {
+        this._curr_path = new ArrayDeque<>(_curr_path);
+        this._curr_path.add(node);
+    }
     public double getValue() {
         // TODO Auto-generated method stub
         return this._value;
@@ -188,33 +198,33 @@ public class CL_Agent {
         this._curr_fruit = curr_fruit;
     }
 
-    public void set_SDT(long ddtt) {
-        long ddt = ddtt;
-        if (this._curr_edge != null) {
-            double w = get_curr_edge().getWeight();
-            geo_location dest = _gg.getNode(get_curr_edge().getDest()).getLocation();
-            geo_location src = _gg.getNode(get_curr_edge().getSrc()).getLocation();
-            double de = src.distance(dest);
-            double dist = _pos.distance(dest);
-            if (this.get_curr_fruit().get_edge() == this.get_curr_edge()) {
-                dist = _curr_fruit.getLocation().distance(this._pos);
-            }
-            double norm = dist / de;
-            double dt = w * norm / this.getSpeed();
-            ddt = (long) (1000.0 * dt);
-        }
-        this.set_sg_dt(ddt);
-    }
+//    public void set_SDT(long ddtt) {
+//        long ddt = ddtt;
+//        if (this._curr_edge != null) {
+//            double w = get_curr_edge().getWeight();
+//            geo_location dest = _gg.getNode(get_curr_edge().getDest()).getLocation();
+//            geo_location src = _gg.getNode(get_curr_edge().getSrc()).getLocation();
+//            double de = src.distance(dest);
+//            double dist = _pos.distance(dest);
+//            if (this.get_curr_fruit().get_edge() == this.get_curr_edge()) {
+//                dist = _curr_fruit.getLocation().distance(this._pos);
+//            }
+//            double norm = dist / de;
+//            double dt = w * norm / this.getSpeed();
+//            ddt = (long) (1000.0 * dt);
+//        }
+//        this.set_sg_dt(ddt);
+//    }
 
     public edge_data get_curr_edge() {
         return this._curr_edge;
     }
 
-    public long get_sg_dt() {
-        return _sg_dt;
-    }
+    //public long get_sg_dt() {
+    //    return _sg_dt;
+   // }
 
-    public void set_sg_dt(long _sg_dt) {
-        this._sg_dt = _sg_dt;
-    }
+   // public void set_sg_dt(long _sg_dt) {
+    //    this._sg_dt = _sg_dt;
+   // }
 }

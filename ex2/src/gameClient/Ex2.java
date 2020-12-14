@@ -1,20 +1,16 @@
 package gameClient;
 
 import Server.Game_Server_Ex2;
-import api.DWGraph_Algo;
-import api.directed_weighted_graph;
-import api.game_service;
+import api.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
-    private static HashMap<CL_Agent,Double> cost_matrix = new HashMap<>();
 
 
     public static void main(String[] args) {
@@ -55,6 +51,25 @@ public class Ex2 implements Runnable {
 
         System.out.println(res);
         System.exit(0);
+    }
+    public void greedy(game_service game,DWGraph_Algo ga){
+        game.move();
+        List<CL_Agent> agents = _ar.getAgents();
+        for (CL_Agent a:agents) {
+            if (a.isMoving())
+                continue;
+            CL_Pokemon pokemon = a.get_curr_fruit();
+            if (a.get_curr_edge().equals(pokemon.get_edge())) {
+                Pokemon p = Pokemon.pokemon_map.get(pokemon);
+                a.set_curr_fruit(p.getPokemon());
+                node_data node = ga.getGraph().getNode(p.getPokemon().get_edge().getDest());
+                a.set_curr_path(ga.shortestPath(a.getSrcNode(),p.getPokemon().get_edge().getSrc()),node);
+            }
+            a.getSrcNode();
+            node_data node = a.get_curr_path().poll();
+            a.setNextNode(node.getKey());
+            game.chooseNextEdge(a.getID(), node.getKey());
+        }
     }
     // Todo first assignment of a  pokemon to every agent
     // Todo update speed fo agent
@@ -134,12 +149,15 @@ public class Ex2 implements Runnable {
     private void init(game_service game) {
         String g = game.getGraph();
         String fs = game.getPokemons();
-        directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
+        //directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         //gg.init(g);
+        dw_graph_algorithms ag = new DWGraph_Algo();
+        ((DWGraph_Algo)(ag)).load_graph(game.getGraph());
+        directed_weighted_graph gg = ag.getGraph();
         _ar = new Arena();
         _ar.setGraph(gg);
         _ar.setPokemons(Arena.json2Pokemons(fs));
-        _win = new MyFrame("test Ex2");
+        _win = new MyFrame("game graph");
         _win.setSize(1000, 700);
         _win.update(_ar);
         _win.show();
@@ -147,24 +165,17 @@ public class Ex2 implements Runnable {
         JSONObject line;
         try {
             line = new JSONObject(info);
-            JSONObject ttt = line.getJSONObject("GameServer");
-            int rs = ttt.getInt("agents");
-            System.out.println(info);
-            System.out.println(game.getPokemons());
-            int src_node = 0;  // arbitrary node, you should start at one of the pokemon
+            //JSONObject ttt = line.getJSONObject("GameServer");
+            //int rs = ttt.getInt("agents");
+            //System.out.println(info);
+           // System.out.println(game.getPokemons());
             ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons());
             for (int a = 0; a < cl_fs.size(); a++) {
                 Arena.updateEdge(cl_fs.get(a), gg);
+                new Pokemon(cl_fs.get(a));
             }
-            for (int a = 0; a < rs; a++) {
-                int ind = a % cl_fs.size();
-                CL_Pokemon c = cl_fs.get(ind);
-                int nn = c.get_edge().getDest();
-                if (c.getType() < 0) {
-                    nn = c.get_edge().getSrc();
-                }
-
-                game.addAgent(nn);
+            for (int a = 0; a < cl_fs.size(); a++) {
+                Pokemon.pokemon_map.get(cl_fs.get(a)).setQ(ag,cl_fs);
             }
         } catch (JSONException e) {
             e.printStackTrace();

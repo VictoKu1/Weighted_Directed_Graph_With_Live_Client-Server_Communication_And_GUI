@@ -4,6 +4,10 @@ import api.edge_data;
 import gameClient.util.Point3D;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class CL_Pokemon {
     private edge_data _edge;
     private double _value;
@@ -11,6 +15,7 @@ public class CL_Pokemon {
     private Point3D _pos;
     private double min_dist;
     private int min_ro;
+   private boolean target;
 
     public CL_Pokemon(Point3D p, int t, double v, double s, edge_data e) {
         _type = t;
@@ -32,6 +37,14 @@ public class CL_Pokemon {
             e.printStackTrace();
         }
         return ans;
+    }
+
+    public boolean isTarget() {
+        return target;
+    }
+
+    public void setTarget(boolean target) {
+        this.target = target;
     }
 
     public String toString() {
