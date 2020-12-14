@@ -28,8 +28,6 @@ public class Ex2_Client implements Runnable {
     public void run() {
         //Input_Frame input_frame = new Input_Frame("Start the game:");
         //input_frame.start();
-
-
         int scenario_num = 20;
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
         //	int id = 999;
@@ -151,7 +149,6 @@ public class Ex2_Client implements Runnable {
                 if (c.getType() < 0) {
                     nn = c.get_edge().getDest();
                 }
-
                 game.addAgent(nn);
             }
         } catch (JSONException e) {
@@ -169,7 +166,6 @@ public class Ex2_Client implements Runnable {
             stk.push(pokemon);
         }
         return stk;
-
     }
 
     /*
@@ -217,5 +213,4 @@ public class Ex2_Client implements Runnable {
         if (i < high)
             quickSort(array, i, high);
     }
-
 }
