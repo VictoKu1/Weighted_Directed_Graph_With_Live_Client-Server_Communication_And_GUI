@@ -78,6 +78,7 @@ public class DWGraph_DSAlgoTest {
         assert ag.save("test.json");
         assertTrue(load());
     }
+
     boolean load() {
         ag.init(graph_ds);
         assert ag.load("test.json");
@@ -193,24 +194,26 @@ public class DWGraph_DSAlgoTest {
         g1.removeNode(0);
         assertNotEquals(g1, wga1.getGraph());
     }
+
     @Test
-    void graph_limits(){
+    void graph_limits() {
         directed_weighted_graph g = new DWGraph_DS();
         for (int i = 0; i < 100_001; i++) {
             g.addNode(new Node(i));
         }
         for (int i = 0; i < 100_000; i++) {
-            g.connect(i,i+1,1);
+            g.connect(i, i + 1, 1);
         }
         ag.init(g);
-        assertEquals(false,ag.isConnected());
+        assertEquals(false, ag.isConnected());
         for (int i = 0; i < 100_000; i++) {
-            g.connect(i+1,i,1);
+            g.connect(i + 1, i, 1);
         }
         ag.init(g);
-        assertEquals(true,ag.isConnected());
-        assertEquals(100_000,ag.shortestPathDist(0,100_000));
+        assertEquals(true, ag.isConnected());
+        assertEquals(100_000, ag.shortestPathDist(0, 100_000));
     }
+
     @AfterAll
     static void deleteFiles() {
         new File("test.json").delete();

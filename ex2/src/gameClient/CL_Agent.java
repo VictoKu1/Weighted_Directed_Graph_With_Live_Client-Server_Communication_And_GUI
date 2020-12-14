@@ -25,7 +25,7 @@ public class CL_Agent {
     private node_data _curr_node;
     private directed_weighted_graph _gg;
     private CL_Pokemon _curr_fruit;
-   // private long _sg_dt;
+    // private long _sg_dt;
     private double _value;
     private Queue<node_data> _curr_path;
 
@@ -162,10 +162,11 @@ public class CL_Agent {
         return _curr_path;
     }
 
-    public void set_curr_path(List<node_data> _curr_path,node_data node) {
+    public void set_curr_path(List<node_data> _curr_path, node_data node) {
         this._curr_path = new ArrayDeque<>(_curr_path);
         this._curr_path.add(node);
     }
+
     public double getValue() {
         // TODO Auto-generated method stub
         return this._value;
@@ -222,9 +223,9 @@ public class CL_Agent {
 
     //public long get_sg_dt() {
     //    return _sg_dt;
-   // }
+    // }
 
-   // public void set_sg_dt(long _sg_dt) {
+    // public void set_sg_dt(long _sg_dt) {
     //    this._sg_dt = _sg_dt;
-   // }
+    // }
 }
