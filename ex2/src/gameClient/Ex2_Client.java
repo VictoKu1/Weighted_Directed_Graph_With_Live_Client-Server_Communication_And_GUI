@@ -189,6 +189,7 @@ public class Ex2_Client implements Runnable {
         }
         return cl_fs1;
     }
+
     /*
      *Classic implementation of quickSort algorithm for a double (type) unsorted array.
      */
