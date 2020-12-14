@@ -6,15 +6,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Queue;
 
 public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
+    private static HashMap<Integer, Queue<node_data>>agents_paths;
 
 
     public static void main(String[] args) {
-        Thread client = new Thread(new Ex2_Client());
+        Thread client = new Thread(new Ex2());
         client.start();
     }
 
@@ -35,7 +38,7 @@ public class Ex2 implements Runnable {
         ag.load_graph(game.getGraph());
         directed_weighted_graph gg = ag.getGraph();
         while (game.isRunning()) {
-            //moveAgants(game, gg);
+            greedy(game,ag);
             try {
                 if (ind % 1 == 0) {
                     _ar.setTime_left(game.timeToEnd());
@@ -54,8 +57,8 @@ public class Ex2 implements Runnable {
     }
 
     public void greedy(game_service game, DWGraph_Algo ga) {
-        game.move();
-        List<CL_Agent> agents = _ar.getAgents();
+        String lg = game.move();
+        List<CL_Agent> agents = _ar.getAgents(lg,ga.getGraph());
         for (CL_Agent a : agents) {
             if (a.isMoving())
                 continue;
@@ -64,10 +67,10 @@ public class Ex2 implements Runnable {
                 Pokemon p = Pokemon.pokemon_map.get(pokemon);
                 a.set_curr_fruit(p.getPokemon());
                 node_data node = ga.getGraph().getNode(p.getPokemon().get_edge().getDest());
-                a.set_curr_path(ga.shortestPath(a.getSrcNode(), p.getPokemon().get_edge().getSrc()), node);
+                Queue<node_data> q = a.set_curr_path(ga.shortestPath(a.getSrcNode(), p.getPokemon().get_edge().getSrc()), node);
+                agents_paths.put(a.getID(), q);
             }
-            a.getSrcNode();
-            node_data node = a.get_curr_path().poll();
+            node_data node = agents_paths.get(a.getID()).poll();
             a.setNextNode(node.getKey());
             game.chooseNextEdge(a.getID(), node.getKey());
         }
@@ -167,8 +170,8 @@ public class Ex2 implements Runnable {
         JSONObject line;
         try {
             line = new JSONObject(info);
-            //JSONObject ttt = line.getJSONObject("GameServer");
-            //int rs = ttt.getInt("agents");
+            JSONObject ttt = line.getJSONObject("GameServer");
+            int rs = ttt.getInt("agents");
             //System.out.println(info);
             // System.out.println(game.getPokemons());
             ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons());
@@ -178,6 +181,16 @@ public class Ex2 implements Runnable {
             }
             for (int a = 0; a < cl_fs.size(); a++) {
                 Pokemon.pokemon_map.get(cl_fs.get(a)).setQ(ag, cl_fs);
+            }
+            for (int a = 0; a < rs; a++) {
+                int ind = a % cl_fs.size();
+                CL_Pokemon c = cl_fs.get(ind);
+                int nn = c.get_edge().getDest();
+                if (c.getType() < 0) {
+                    nn = c.get_edge().getSrc();
+                }
+
+                game.addAgent(nn);
             }
         } catch (JSONException e) {
             e.printStackTrace();
