@@ -144,7 +144,7 @@ public class Ex2_Client implements Runnable {
             for (int a = 0; a < cl_fs.size(); a++) {
                 Arena.updateEdge(cl_fs.get(a), gg);
             }
-            Stack<CL_Pokemon> stk = locate(cl_fs);
+            Stack<CL_Pokemon> stk = locate(cl_fs); //Locating agents in front of the most weighty pokemon.
             for (int a = 0; a < rs; a++) {
                 CL_Pokemon c = stk.pop();
                 int nn = c.get_edge().getSrc();
@@ -159,6 +159,9 @@ public class Ex2_Client implements Runnable {
         }
     }
 
+    /*
+     *The following method gets a list of all the pokemons in the graph, sorts them by their weight, and then putting them into a stack to perform swapping - because they are at this point sorted from the lowest to the greatest and we need the greatest.
+     */
     public Stack<CL_Pokemon> locate(ArrayList<CL_Pokemon> cl_fs) {
         cl_fs = sortByWeight(cl_fs);
         Stack<CL_Pokemon> stk = new Stack<CL_Pokemon>();
@@ -169,6 +172,9 @@ public class Ex2_Client implements Runnable {
 
     }
 
+    /*
+     *The following method gets a list of all the pokemons in the graph, sorts them by their weight using quicksort .
+     */
     private ArrayList<CL_Pokemon> sortByWeight(ArrayList<CL_Pokemon> cl_fs) {
         double[] pokemonListWeight = new double[cl_fs.size()];
         HashMap<Double, CL_Pokemon> weightToPokemon = new HashMap<Double, CL_Pokemon>();
@@ -183,7 +189,9 @@ public class Ex2_Client implements Runnable {
         }
         return cl_fs1;
     }
-
+    /*
+     *Classic implementation of quickSort algorithm for a double (type) unsorted array.
+     */
     public void quickSort(double[] array, int low, int high) {
         int i = low, j = high;
         double pivot = array[low + (high - low) / 2];
