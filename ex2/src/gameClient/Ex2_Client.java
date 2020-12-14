@@ -5,10 +5,7 @@ import api.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Ex2_Client implements Runnable {
     private static MyFrame _win;
@@ -147,12 +144,12 @@ public class Ex2_Client implements Runnable {
             for (int a = 0; a < cl_fs.size(); a++) {
                 Arena.updateEdge(cl_fs.get(a), gg);
             }
+            Stack<CL_Pokemon> stk = locate(cl_fs);
             for (int a = 0; a < rs; a++) {
-                int ind = a % cl_fs.size();
-                CL_Pokemon c = cl_fs.get(ind);
-                int nn = c.get_edge().getDest();
+                CL_Pokemon c = stk.pop();
+                int nn = c.get_edge().getSrc();
                 if (c.getType() < 0) {
-                    nn = c.get_edge().getSrc();
+                    nn = c.get_edge().getDest();
                 }
 
                 game.addAgent(nn);
@@ -161,4 +158,55 @@ public class Ex2_Client implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public Stack<CL_Pokemon> locate(ArrayList<CL_Pokemon> cl_fs) {
+        cl_fs = sortByWeight(cl_fs);
+        Stack<CL_Pokemon> stk = new Stack<CL_Pokemon>();
+        for (CL_Pokemon pokemon : cl_fs) {
+            stk.push(pokemon);
+        }
+        return stk;
+
+    }
+
+    private ArrayList<CL_Pokemon> sortByWeight(ArrayList<CL_Pokemon> cl_fs) {
+        double[] pokemonListWeight = new double[cl_fs.size()];
+        HashMap<Double, CL_Pokemon> weightToPokemon = new HashMap<Double, CL_Pokemon>();
+        for (int i = 0; i < pokemonListWeight.length; i++) {
+            pokemonListWeight[i] = cl_fs.get(i).getValue();
+            weightToPokemon.put(pokemonListWeight[i], cl_fs.get(i));
+        }
+        quickSort(pokemonListWeight, 0, pokemonListWeight.length - 1);
+        ArrayList<CL_Pokemon> cl_fs1 = new ArrayList<CL_Pokemon>(pokemonListWeight.length);
+        for (int i = 0; i < pokemonListWeight.length; i++) {
+            cl_fs1.add(weightToPokemon.get(pokemonListWeight[i]));
+        }
+        return cl_fs1;
+    }
+
+    public void quickSort(double[] array, int low, int high) {
+        int i = low, j = high;
+        double pivot = array[low + (high - low) / 2];
+        double exchange;
+        while (i <= j) {
+            while (array[i] < pivot) {
+                i++;
+            }
+            while (array[j] > pivot) {
+                j--;
+            }
+            if (i <= j) {
+                exchange = array[i];
+                array[i] = array[j];
+                array[j] = exchange;
+                i++;
+                j--;
+            }
+        }
+        if (low < j)
+            quickSort(array, low, j);
+        if (i < high)
+            quickSort(array, i, high);
+    }
+
 }
