@@ -126,12 +126,11 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     /*
      *Method which implements the DFS algorithm and returns the time on which the algorithm finished his job.
      */
-    private Integer DFSFromNode(node_data src) {
+    private void DFSFromNode(node_data src) {
         defaultValuesForEachNode();
         Integer currentTime = new Integer(0);
         Stack<node_data> stk = new Stack<node_data>();
         helpDFS(src, currentTime, stk);
-        return currentTime;
     }
 //
 //    /*
@@ -149,9 +148,18 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 //    }
 
     /*
-     *Sets all the Tag's and Info's parameters of each node to it's default value .
+     *Sets all the Tag's, Info's and Weight's parameters of each node to it's default value .
      */
     private void defaultValuesForEachNode() {
+        defaultTagForEachNode();
+        defaultInfoForEachNode();
+        defaultWeightForEachNode();
+    }
+
+    /*
+     *Sets all the Tag's and Info's parameters of each node to it's default value .
+     */
+    private void defaultTagAndInfoForEachNode() {
         defaultTagForEachNode();
         defaultInfoForEachNode();
     }
@@ -179,6 +187,17 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     /*
+     *Sets all node's weight parameter to default value.
+     */
+    private void defaultWeightForEachNode() {
+        Iterator<node_data> itr = this.g.getV().iterator();
+        while (itr.hasNext()) {
+            node_data defaultedNode = itr.next();
+            setWeightToDefault(defaultedNode);
+        }
+    }
+
+    /*
      *Sets the Tag parameter of the inputted node to default value.
      */
     private void setTagToDefault(node_data defaultedNode) {
@@ -190,6 +209,13 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     private void setInfoToDefault(node_data defaultedNode) {
         defaultedNode.setInfo(new String(""));
+    }
+
+    /*
+     *Sets specific node weight value to default.
+     */
+    private void setWeightToDefault(node_data defaultedNode) {
+        defaultedNode.setWeight(0.0d);
     }
 
     /*
@@ -233,7 +259,29 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
         return false;
     }
-   //ToDo Dijkstra for one to all
+
+    /*
+     *Performs dijkstra algorithm from a specific node for in-game purposes
+     */
+    public directed_weighted_graph dijkstraForAll(node_data src) {
+        if (this.g.getNode(src.getKey()) != null) {
+            if (this.g.getNode(src.getKey()).equals(src)) {
+                Iterator<node_data> itr = this.g.getV().iterator();
+                while (itr.hasNext()) {
+                    node_data target = itr.next();
+                    if (!target.equals(src)) {
+                        continue;
+                    }
+                    defaultValuesForEachNode();
+                    Dijkstra(src.getKey());
+                    defaultTagAndInfoForEachNode();
+                }
+            }
+            return null;
+        }
+        return null;
+    }
+
     /**
      * returns the length of the shortest path between src to dest
      * Note: if no such path --> returns -1
