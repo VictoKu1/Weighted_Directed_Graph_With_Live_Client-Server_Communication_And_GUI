@@ -1,6 +1,7 @@
 package tests;
 
 import api.*;
+import org.junit.After;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -72,16 +73,16 @@ public class DWGraph_DSAlgoTest {
     }
 
     @Test
-    void save() {
+    void saveAndLoad() {
         ag.init(graph_ds);
         assert ag.save("test.json");
+        assertTrue(load());
     }
-
-    @Test
-    void load() {
+    boolean load() {
         ag.init(graph_ds);
         assert ag.load("test.json");
         assertEquals(graph_ds, ag.getGraph());
+        return true;
     }
 
 
