@@ -80,11 +80,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Method performs a copy of the edges the contained in this class graph to the given graph.
      */
     private void copyEdges(directed_weighted_graph target) {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            Iterator<edge_data> itr1 = this.g.getE(itr.next().getKey()).iterator();
-            while (itr1.hasNext()) {
-                edge_data fromEdge = itr1.next();
+        for (api.node_data node_data : this.g.getV()) {
+            for (edge_data fromEdge : this.g.getE(node_data.getKey())) {
                 target.connect(fromEdge.getSrc(), fromEdge.getDest(), fromEdge.getWeight());
                 target.getEdge(fromEdge.getSrc(), fromEdge.getDest()).setInfo(fromEdge.getInfo());
                 target.getEdge(fromEdge.getSrc(), fromEdge.getDest()).setTag(fromEdge.getTag());
@@ -160,9 +157,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     peekedFromStack.setTag(counter);
                     peekedFromStack.setInfo("P");
                     counter++;
-                    Iterator<edge_data> itr = this.g.getE(peekedFromStack.getKey()).iterator();
-                    while (itr.hasNext()) {
-                        edge_data edge = itr.next();
+                    for (edge_data edge : this.g.getE(peekedFromStack.getKey())) {
                         if (edge == null) {
                             continue;
                         }
@@ -215,9 +210,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Sets all the Tag parameters of each node to their default value .
      */
     private void defaultTagForEachNode() {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            node_data defaultedNode = itr.next();
+        for (node_data defaultedNode : this.g.getV()) {
             setTagToDefault(defaultedNode);
         }
     }
@@ -226,9 +219,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Sets all the Info parameters of each node to their default value .
      */
     private void defaultInfoForEachNode() {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            node_data defaultedNode = itr.next();
+        for (node_data defaultedNode : this.g.getV()) {
             setInfoToDefault(defaultedNode);
         }
     }
@@ -237,9 +228,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Sets all node's weight parameter to default value.
      */
     private void defaultWeightForEachNode() {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            node_data defaultedNode = itr.next();
+        for (node_data defaultedNode : this.g.getV()) {
             setWeightToDefault(defaultedNode);
         }
     }
@@ -276,9 +265,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         src.setTag(currentTime);
         src.setInfo("P");
         stk.push(src);
-        Iterator<edge_data> itr = this.g.getE(src.getKey()).iterator();
-        while (itr.hasNext()) {
-            edge_data edge = itr.next();
+        for (edge_data edge : this.g.getE(src.getKey())) {
             if (edge == null) {
                 continue;
             }
@@ -298,9 +285,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Boolean method which checks if there are still some nodes left untouched after running the DFS algorithm the determine the connectivity of the graph .
      */
     private boolean someNodeWasNotSeenByTheDFSAlgorithm() {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            if (itr.next().getInfo().equals("")) {
+        for (api.node_data node_data : this.g.getV()) {
+            if (node_data.getInfo().equals("")) {
                 return true;
             }
         }
@@ -380,20 +366,17 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *  Helping method to the Dijkstra(int src) method , which is marking all the tags of all nodes in the graph to infinity .
      */
     private void setTheDistancesToInf() {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            itr.next().setWeight(Double.POSITIVE_INFINITY);
+        for (api.node_data node_data : this.g.getV()) {
+            node_data.setWeight(Double.POSITIVE_INFINITY);
         }
     }
     /*
      *Helping method for Dijkstra(int src) method which adds new nodes to the algorithm queue dependently if its tag parameter is lower than the tag of parent summarized with the weight of the node between them and if the node is determined as valid by the previously produced BFS algorithm. Mainly exist to make Dijkstra(int src) method more readable .
      */
 
-    private void addToQueueEachAdjacentNodeWhichIsConnectedSomehowToTheDest
-            (LinkedList<node_data> queue, node_data parent) {
-        Iterator<edge_data> itr = this.g.getE(parent.getKey()).iterator();
-        while (itr.hasNext()) {
-            node_data node = this.g.getNode(itr.next().getDest());
+    private void addToQueueEachAdjacentNodeWhichIsConnectedSomehowToTheDest(LinkedList<node_data> queue, node_data parent) {
+        for (api.edge_data edge_data : this.g.getE(parent.getKey())) {
+            node_data node = this.g.getNode(edge_data.getDest());
             if (queue.contains(node)) {
                 node = queue.get(queue.indexOf(node));
             }
@@ -410,9 +393,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *  Helper method that it used after the Dijkstra algorithm to set all the parent parameters to default value null .
      */
     private void setParentOfEveryNodeInGraphToDefault() {
-        Iterator<node_data> itr = this.g.getV().iterator();
-        while (itr.hasNext()) {
-            ((Node) (itr.next())).setParent(null);
+        for (api.node_data node_data : this.g.getV()) {
+            ((Node) node_data).setParent(null);
         }
     }
 
