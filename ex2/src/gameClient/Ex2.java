@@ -31,7 +31,7 @@ public class Ex2 implements Runnable {
         game.startGame();
         _win.setTitle("level number : " + scenario_num);
         int ind = 0;
-        long dt = 1000;
+        long dt = 100;
         DWGraph_Algo ag = new DWGraph_Algo();
         ag.load_graph(game.getGraph());
         directed_weighted_graph gg = ag.getGraph();
@@ -58,6 +58,9 @@ public class Ex2 implements Runnable {
         game.move();
         String lg = game.getAgents();
         List<CL_Agent> agents = _ar.getAgents(lg);
+        lg = game.getPokemons();
+        List<CL_Pokemon> f = Arena.json2Pokemons(lg);
+        _ar.setPokemons(f);
         for (CL_Agent a : agents) {
             if (a.isMoving())
                 continue;

@@ -263,7 +263,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     /*
      *Performs dijkstra algorithm from a specific node for in-game purposes
      */
-    public directed_weighted_graph dijkstraForAll(node_data src) {
+    public directed_weighted_graph dijkstraForAll(int _src) {
+        node_data src = g.getNode(_src);
         if (this.g.getNode(src.getKey()) != null) {
             if (this.g.getNode(src.getKey()).equals(src)) {
                 defaultValuesForEachNode();

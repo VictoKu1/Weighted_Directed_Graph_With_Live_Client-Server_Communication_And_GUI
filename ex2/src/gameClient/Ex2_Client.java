@@ -37,11 +37,10 @@ public class Ex2_Client implements Runnable {
         String pks = game.getPokemons();
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         init(game);
-
         game.startGame();
         _win.setTitle("Ex2 - OOP: (NONE trivial Solution) " + game.toString());
         int ind = 0;
-        long dt = 1000;
+        long dt = 100;
 
         while (game.isRunning()) {
             moveAgants(game, gg);
@@ -72,8 +71,8 @@ public class Ex2_Client implements Runnable {
      */
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
         String lg = game.move();
-        System.out.println(lg);
-        List<CL_Agent> log = Arena.getAgents(lg);
+        //System.out.println(lg);
+        List<CL_Agent> log = Arena.getAgents(lg,gg);
         _ar.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs = game.getPokemons();
@@ -88,7 +87,7 @@ public class Ex2_Client implements Runnable {
             if (dest == -1) {
                 dest = nextNode(gg, src);
                 game.chooseNextEdge(ag.getID(), dest);
-                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                //System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
             }
         }
     }
