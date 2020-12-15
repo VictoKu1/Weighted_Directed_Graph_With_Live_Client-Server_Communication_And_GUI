@@ -46,9 +46,9 @@ public class DWGraph_DSAlgoTest {
     @Test
     void isConnected() {
         ag.init(graph_ds);
-        assertEquals(true, ag.isConnected());
+        assertTrue(ag.isConnected());
         graph_ds.removeEdge(3, 0);
-        assertEquals(false, ag.isConnected());
+        assertFalse(ag.isConnected());
     }
 
     @Test
@@ -66,10 +66,10 @@ public class DWGraph_DSAlgoTest {
     void shortestPath() {
         ag.init(graph_ds);
         //assertEquals(,ag.shortestPath(0,3));
-        assertEquals(null, ag.shortestPath(0, 100));
-        assertEquals(null, ag.shortestPath(100, 100));
-        assertEquals(null, ag.shortestPath(101, 100));
-        assertEquals(null, ag.shortestPath(101, 0));
+        assertNull(ag.shortestPath(0, 100));
+        assertNull(ag.shortestPath(100, 100));
+        assertNull(ag.shortestPath(101, 100));
+        assertNull(ag.shortestPath(101, 0));
     }
 
     @Test
@@ -205,12 +205,12 @@ public class DWGraph_DSAlgoTest {
             g.connect(i, i + 1, 1);
         }
         ag.init(g);
-        assertEquals(false, ag.isConnected());
+        assertFalse(ag.isConnected());
         for (int i = 0; i < 100_000; i++) {
             g.connect(i + 1, i, 1);
         }
         ag.init(g);
-        assertEquals(true, ag.isConnected());
+        assertTrue(ag.isConnected());
         assertEquals(100_000, ag.shortestPathDist(0, 100_000));
     }
 

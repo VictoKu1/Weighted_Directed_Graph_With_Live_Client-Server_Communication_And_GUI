@@ -124,7 +124,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Method which implements the DFS algorithm and returns the time on which the algorithm finished his job.
      */
     private void DFSFromNode(node_data src) {
-        defaultValuesForEachNode();
         int counter = 0;
         Stack<node_data> stk = new Stack<node_data>();
         stk.push(src);
@@ -370,10 +369,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             node_data.setWeight(Double.POSITIVE_INFINITY);
         }
     }
+
     /*
      *Helping method for Dijkstra(int src) method which adds new nodes to the algorithm queue dependently if its tag parameter is lower than the tag of parent summarized with the weight of the node between them and if the node is determined as valid by the previously produced BFS algorithm. Mainly exist to make Dijkstra(int src) method more readable .
      */
-
     private void addToQueueEachAdjacentNodeWhichIsConnectedSomehowToTheDest(LinkedList<node_data> queue, node_data parent) {
         for (api.edge_data edge_data : this.g.getE(parent.getKey())) {
             node_data node = this.g.getNode(edge_data.getDest());
@@ -427,12 +426,11 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     private void pathBuilder(List<node_data> list, node_data dest) {
-        if (((Node) (dest)).getParent() == null) {
+        while (((Node) (dest)).getParent() != null) {
             ((LinkedList<node_data>) (list)).addFirst(dest);
-            return;
+            dest = ((Node) (dest)).getParent();
         }
         ((LinkedList<node_data>) (list)).addFirst(dest);
-        pathBuilder(list, ((Node) (dest)).getParent());
     }
 
     /**
