@@ -8,6 +8,7 @@ public class Pokemon {
     public static HashMap<Integer, Pokemon> pokemon_map = new HashMap<>();
     private CL_Pokemon pokemon;
     private Queue<pok_pri> q;
+    private directed_weighted_graph g;
 
     public Pokemon(CL_Pokemon pokemon) {
         this.pokemon = pokemon;
@@ -26,8 +27,8 @@ public class Pokemon {
     }
 
     public void setQ(dw_graph_algorithms ga, List<CL_Pokemon> pokemons) {
-        // ga.one_to_all(pokemon.get_edge().getDest());
-        directed_weighted_graph g = ga.getGraph();
+        DWGraph_Algo ag = ((DWGraph_Algo)(ga));
+        g = ag.dijkstraForAll(pokemon.get_edge().getDest());
         double dist;
         for (CL_Pokemon pok : pokemons) {
             dist = g.getNode(pok.get_edge().getSrc()).getWeight();
