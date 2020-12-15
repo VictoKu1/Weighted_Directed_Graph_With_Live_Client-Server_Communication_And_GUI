@@ -5,13 +5,13 @@ import java.util.*;
 import api.*;
 
 public class Pokemon {
-    public static HashMap<CL_Pokemon, Pokemon> pokemon_map = new HashMap<>();
+    public static HashMap<Integer, Pokemon> pokemon_map = new HashMap<>();
     private CL_Pokemon pokemon;
     private Queue<pok_pri> q;
 
     public Pokemon(CL_Pokemon pokemon) {
         this.pokemon = pokemon;
-        pokemon_map.put(pokemon, this);
+        pokemon_map.put(pokemon.getID(), this);
         q = new PriorityQueue<>(Comparator.comparing(pok_pri::getDist));
     }
 

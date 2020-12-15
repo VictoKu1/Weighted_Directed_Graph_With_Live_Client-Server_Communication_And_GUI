@@ -121,8 +121,26 @@ public class Arena {
         try {
             JSONObject ttt = new JSONObject(aa);
             JSONArray ags = ttt.getJSONArray("Agents");
+            for(int i=0;i<ags.length();i++) {
+                CL_Agent c = new CL_Agent(gg,0);
+                c.update(ags.get(i).toString());
+                ans.add(c);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ans;
+    }
+    public static List<CL_Agent> getAgents(String aa) {
+        ArrayList<CL_Agent> ans = new ArrayList<CL_Agent>();
+        try {
+            JSONObject ttt = new JSONObject(aa);
+            JSONArray ags = ttt.getJSONArray("Agents");
             for (int i = 0; i < ags.length(); i++) {
-                CL_Agent c = new CL_Agent(gg, 0);
+                JSONObject line = new JSONObject(ags.get(i).toString());
+                JSONObject _ag = line.getJSONObject("Agent");
+                int id = _ag.getInt("id");
+                CL_Agent c = Agent.agents.get(id).getAgent();
                 c.update(ags.get(i).toString());
                 ans.add(c);
             }
@@ -143,9 +161,8 @@ public class Arena {
                 JSONObject pk = pp.getJSONObject("Pokemon");
                 int t = pk.getInt("type");
                 double v = pk.getDouble("value");
-                //pk.getDouble("speed");
                 String p = pk.getString("pos");
-                CL_Pokemon f = new CL_Pokemon(new Point3D(p), t, v, 0, null);
+                CL_Pokemon f = new CL_Pokemon(new Point3D(p), t, v, null,i);
                 ans.add(f);
             }
         } catch (JSONException e) {
@@ -155,7 +172,6 @@ public class Arena {
     }
 
     public static void updateEdge(CL_Pokemon fr, directed_weighted_graph g) {
-        //	oop_edge_data ans = null;
         Iterator<node_data> itr = g.getV().iterator();
         while (itr.hasNext()) {
             node_data v = itr.next();

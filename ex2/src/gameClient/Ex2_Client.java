@@ -73,7 +73,7 @@ public class Ex2_Client implements Runnable {
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
         String lg = game.move();
         System.out.println(lg);
-        List<CL_Agent> log = Arena.getAgents(lg, gg);
+        List<CL_Agent> log = Arena.getAgents(lg);
         _ar.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs = game.getPokemons();

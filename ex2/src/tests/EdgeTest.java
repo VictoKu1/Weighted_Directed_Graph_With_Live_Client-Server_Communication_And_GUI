@@ -38,7 +38,7 @@ class EdgeTest {
 
     @Test
     void getInfo() {
-        assertEquals(null, e.getInfo());
+        assertEquals("", e.getInfo());
         e.setInfo("s");
         assertEquals("s", e.getInfo());
 

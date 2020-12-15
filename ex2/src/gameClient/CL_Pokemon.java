@@ -16,15 +16,16 @@ public class CL_Pokemon {
     private double min_dist;
     private int min_ro;
     private boolean target;
+    private int id;
 
-    public CL_Pokemon(Point3D p, int t, double v, double s, edge_data e) {
+    public CL_Pokemon(Point3D p, int t, double v,edge_data e , int id) {
         _type = t;
-        //	_speed = s;
         _value = v;
         set_edge(e);
         _pos = p;
         min_dist = -1;
         min_ro = -1;
+        this.id = id;
     }
 
     public static CL_Pokemon init_from_json(String json) {
@@ -86,5 +87,9 @@ public class CL_Pokemon {
 
     public void setMin_ro(int min_ro) {
         this.min_ro = min_ro;
+    }
+
+    public int getID() {
+        return this.id;
     }
 }
