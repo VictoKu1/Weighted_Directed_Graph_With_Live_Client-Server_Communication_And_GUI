@@ -128,11 +128,58 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     private void DFSFromNode(node_data src) {
         defaultValuesForEachNode();
-        Integer currentTime = new Integer(0);
+        int counter = 0;
         Stack<node_data> stk = new Stack<node_data>();
-        helpDFS(src, currentTime, stk);
+        stk.push(src);
+        boolean transpose = ((DWGraph_DS) (this.g)).getTranspose();
+        if (!transpose) {
+            while (!stk.isEmpty()) {
+                node_data peekedFromStack = stk.peek();
+                if (peekedFromStack.getInfo().equals("")) {
+                    peekedFromStack.setTag(counter);
+                    peekedFromStack.setInfo("P");
+                    counter++;
+                    for (edge_data edge : this.g.getE(peekedFromStack.getKey())) {
+                        if (edge == null) {
+                            continue;
+                        }
+                        if (this.g.getNode(edge.getDest()).getTag() > -1) {
+                            continue;
+                        }
+                        stk.push(this.g.getNode(edge.getDest()));
+                    }
+                } else {
+                    stk.pop().setTag(counter);
+                    counter++;
+                }
+            }
+        } else {
+            while (!stk.isEmpty()) {
+                node_data peekedFromStack = stk.peek();
+                if (peekedFromStack.getInfo().equals("")) {
+                    peekedFromStack.setTag(counter);
+                    peekedFromStack.setInfo("P");
+                    counter++;
+                    Iterator<edge_data> itr = this.g.getE(peekedFromStack.getKey()).iterator();
+                    while (itr.hasNext()) {
+                        edge_data edge = itr.next();
+                        if (edge == null) {
+                            continue;
+                        }
+                        if (this.g.getNode(edge.getSrc()).getTag() > -1) {
+                            continue;
+                        }
+                        stk.push(this.g.getNode(edge.getSrc()));
+                    }
+                } else {
+                    stk.pop().setTag(counter);
+                    counter++;
+                }
+            }
+        }
     }
-//
+
+
 //    /*
 //     *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
 //     */
@@ -341,7 +388,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Helping method for Dijkstra(int src) method which adds new nodes to the algorithm queue dependently if its tag parameter is lower than the tag of parent summarized with the weight of the node between them and if the node is determined as valid by the previously produced BFS algorithm. Mainly exist to make Dijkstra(int src) method more readable .
      */
 
-    private void addToQueueEachAdjacentNodeWhichIsConnectedSomehowToTheDest(LinkedList<node_data> queue, node_data parent) {
+    private void addToQueueEachAdjacentNodeWhichIsConnectedSomehowToTheDest
+            (LinkedList<node_data> queue, node_data parent) {
         Iterator<edge_data> itr = this.g.getE(parent.getKey()).iterator();
         while (itr.hasNext()) {
             node_data node = this.g.getNode(itr.next().getDest());
