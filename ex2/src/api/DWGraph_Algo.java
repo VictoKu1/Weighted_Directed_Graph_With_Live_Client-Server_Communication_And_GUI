@@ -15,7 +15,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      *Constructor method which initializes as new WGraph_DS object the directed_weighted_graph g parameter .
      */
     public DWGraph_Algo() {
-        g = new DWGraph_DS();
+        this.init(new DWGraph_DS());
     }
 
     /*
@@ -24,6 +24,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public void init(directed_weighted_graph g) {
         this.g = g;
+        Tarjan_Node.nodes = new HashMap<>();
     }
 
     /*
@@ -119,7 +120,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         defaultValuesForEachNode();
         return true;
     }
-
     /*
      *Method which implements the DFS algorithm and returns the time on which the algorithm finished his job.
      */
@@ -172,8 +172,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
         }
     }
-
-
 //    /*
 //     *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
 //     */
@@ -292,6 +290,70 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return false;
     }
 
+    /**
+     * find all strongly connected components in the graph
+     * @return
+     */
+    public HashMap<Integer, ArrayList<node_data>> findSCC() {
+        HashMap<Integer,ArrayList<node_data>> all_scc = new HashMap<>();
+        ArrayList<node_data> n_list;
+        if (this.g.nodeSize() == 0 || this.g.nodeSize() == 1 || this.g.edgeSize() == this.g.nodeSize() * (this.g.nodeSize() - 1)) {
+            n_list = new ArrayList<>(g.getV());
+            all_scc.put(0,n_list);
+        }
+        for (node_data node:g.getV()) {
+            new Tarjan_Node(node);
+        }
+        Tarjan_Node.ids = 0;
+        Tarjan_Node.stack = new Stack<>();
+        for (Tarjan_Node n:Tarjan_Node.nodes.values()) {
+            if (!n.visited) {
+                SCC_DFS(n);
+            }
+        }
+
+        for (Tarjan_Node n:Tarjan_Node.nodes.values()) {
+            if (all_scc.containsKey(n.getLow_key())) {
+                n_list = all_scc.get(n.getLow_key());
+                n_list.add(n.getNode());
+            }
+            else{
+                n_list = new ArrayList<>();
+                n_list.add(n.getNode());
+                all_scc.put(n.getLow_key(),n_list);
+            }
+        }
+        return all_scc;
+    }
+    /*
+        dfs for finding scc
+     */
+    private void SCC_DFS(Tarjan_Node at){
+        Stack<Tarjan_Node> stack = Tarjan_Node.stack;
+        HashMap<Integer,Tarjan_Node> nodes = Tarjan_Node.nodes;
+        boolean b = true;
+        stack.push(at);
+        at.setInStack(true);
+        at.id = Tarjan_Node.ids;
+        at.low_key = at.id;
+        at.setVisited(true);
+        Tarjan_Node.ids++;
+        Tarjan_Node to;
+        for (edge_data edge : g.getE(at.node.getKey())) {
+            to = nodes.get(edge.getDest());
+            if (!to.visited)
+                    SCC_DFS(to);
+            if(to.inStack)
+                at.low_key = Math.min(at.low_key,to.low_key);
+        }
+        if (at.low_key == at.id)
+            for (to = stack.pop();;to = stack.pop()) {
+                to.inStack = false;
+                to.low_key = at.id;
+                if(to == at)
+                    break;
+            }
+    }
     /*
      *Performs dijkstra algorithm from a specific node for in-game purposes
      */
@@ -535,5 +597,64 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     private class node_reader {
         private String pos;
         private int id;
+    }
+
+    private static class Tarjan_Node{
+        static Stack<Tarjan_Node> stack;
+        static HashMap<Integer,Tarjan_Node> nodes = new HashMap<>();
+        static int ids;
+        Node node;
+        int id;
+        int low_key;
+        boolean inStack;
+        boolean visited;
+
+        public Tarjan_Node(node_data node) {
+            this.node = ((Node)(node));
+            this.id = 0;
+            this.visited = false;
+            this.inStack = false;
+            this.low_key = Integer.MAX_VALUE;
+            nodes.put(node.getKey(),this);
+        }
+        public node_data getNode() {
+            return node;
+        }
+
+        public void setNode(node_data node) {
+            this.node = ((Node)(node));
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getLow_key() {
+            return low_key;
+        }
+
+        public void setLow_key(int low_key) {
+            this.low_key = low_key;
+        }
+
+        public boolean isInStack() {
+            return inStack;
+        }
+
+        public void setInStack(boolean inStack) {
+            this.inStack = inStack;
+        }
+
+        public boolean isVisited() {
+            return visited;
+        }
+
+        public void setVisited(boolean visited) {
+            this.visited = visited;
+        }
     }
 }

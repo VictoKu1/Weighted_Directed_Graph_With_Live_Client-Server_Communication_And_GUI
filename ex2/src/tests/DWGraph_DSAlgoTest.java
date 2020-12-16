@@ -5,8 +5,7 @@ import org.junit.After;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -212,6 +211,43 @@ public class DWGraph_DSAlgoTest {
         ag.init(g);
         assertTrue(ag.isConnected());
         assertEquals(100_000, ag.shortestPathDist(0, 100_000));
+    }
+
+    @Test
+    void SCC() {
+        directed_weighted_graph g = scc_graph();
+        ag.init(g);
+        HashMap<Integer, ArrayList<node_data>> all_scc = ((DWGraph_Algo) (ag)).findSCC();
+        ArrayList<node_data> list;
+        for (int i : all_scc.keySet()) {
+            list = all_scc.get(i);
+            System.out.println("list number : " + i);
+            System.out.print("[");
+            for (node_data n : list)
+                System.out.print(" " + n.getKey()+ " ");
+            System.out.print("]");
+            System.out.println("");
+        }
+    }
+
+    directed_weighted_graph scc_graph() {
+        directed_weighted_graph g = new DWGraph_DS();
+        for (int i = 0; i < 8; i++) {
+            g.addNode(new Node(i));
+        }
+
+        g.connect(0, 1, 1);
+        g.connect(1, 0, 1);
+        g.connect(0, 2, 1);
+        g.connect(1, 3, 1);
+        g.connect(2, 3, 1);
+        g.connect(3, 4, 1);
+        g.connect(4, 2, 1);
+        g.connect(4, 5, 1);
+        g.connect(6, 5, 1);
+        g.connect(5, 7, 1);
+        g.connect(7, 6, 1);
+        return g;
     }
 
     @AfterAll
