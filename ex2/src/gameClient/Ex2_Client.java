@@ -41,7 +41,6 @@ public class Ex2_Client implements Runnable {
         _win.setTitle("Ex2 - OOP: (NONE trivial Solution) " + game.toString());
         int ind = 0;
         long dt = 100;
-
         while (game.isRunning()) {
             moveAgants(game, gg);
             try {
@@ -78,8 +77,7 @@ public class Ex2_Client implements Runnable {
         String fs = game.getPokemons();
         List<CL_Pokemon> ffs = Arena.json2Pokemons(fs);
         _ar.setPokemons(ffs);
-        for (int i = 0; i < log.size(); i++) {
-            CL_Agent ag = log.get(i);
+        for (CL_Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
             int src = ag.getSrcNode();
@@ -138,9 +136,17 @@ public class Ex2_Client implements Runnable {
             System.out.println(game.getAgents());
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
             ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons());
-            for (int a = 0; a < cl_fs.size(); a++) {
-                Arena.updateEdge(cl_fs.get(a), gg);
+            for (CL_Pokemon cl_f : cl_fs) {
+                Arena.updateEdge(cl_f, gg);
             }
+
+
+//****************************HERE IS THE INITIAL AGENTS POSITIONING BY WEIGHT OF THE POKEMONS USING RECURSIVE QUICKSORT ALGORITHM.****************************///
+
+
+
+
+
             Stack<CL_Pokemon> stk = locate(cl_fs); //Locating agents in front of the most weighty pokemon.
             for (int a = 0; a < rs; a++) {
                 CL_Pokemon c = stk.pop();

@@ -10,7 +10,6 @@ import gameClient.util.Range2D;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,12 +19,14 @@ import java.util.List;
  * code and not to take it "as is".
  */
 public class MyFrame extends JFrame {
+
     private int _ind;
     private Arena _ar;
     private gameClient.util.Range2Range _w2f;
 
     MyFrame(String a) {
         super(a);
+
         int _ind = 0;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -46,12 +47,25 @@ public class MyFrame extends JFrame {
     public void paint(Graphics g) {
         int w = this.getWidth();
         int h = this.getHeight();
-        g.clearRect(0, 0, w, h);
-        updateFrame();
+        Image img = this.createImage(w, h);
+        Graphics graph = img.getGraphics();
+        paintComponents(graph);
+        g.drawImage(img, 0, 0, this);
+//        g.clearRect(0, 0, w, h);
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
         drawInfo(g);
+        updateFrame();
+    }
+
+    @Override
+    public void paintComponents(Graphics g) {
+        drawPokemons(g);
+        drawGraph(g);
+        drawAgants(g);
+        drawInfo(g);
+        updateFrame();
     }
 
     private void drawInfo(Graphics g) {
@@ -66,14 +80,10 @@ public class MyFrame extends JFrame {
 
     private void drawGraph(Graphics g) {
         directed_weighted_graph gg = _ar.getGraph();
-        Iterator<node_data> iter = gg.getV().iterator();
-        while (iter.hasNext()) {
-            node_data n = iter.next();
+        for (node_data n : gg.getV()) {
             g.setColor(Color.blue);
             drawNode(n, 5, g);
-            Iterator<edge_data> itr = gg.getE(n.getKey()).iterator();
-            while (itr.hasNext()) {
-                edge_data e = itr.next();
+            for (edge_data e : gg.getE(n.getKey())) {
                 g.setColor(Color.gray);
                 drawEdge(e, g);
             }
@@ -83,11 +93,8 @@ public class MyFrame extends JFrame {
     private void drawPokemons(Graphics g) {
         List<CL_Pokemon> fs = _ar.getPokemons();
         if (fs != null) {
-            Iterator<CL_Pokemon> itr = fs.iterator();
+            for (CL_Pokemon f : fs) {
 
-            while (itr.hasNext()) {
-
-                CL_Pokemon f = itr.next();
                 Point3D c = f.getLocation();
                 int r = 10;
                 g.setColor(Color.green);
