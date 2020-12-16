@@ -28,7 +28,7 @@ public class Agent {
         this.scc = scc;
     }
 
-    public Queue<node_data> setQ(List<CL_Pokemon> f){
+    public synchronized Queue<node_data> setQ(List<CL_Pokemon> f){
         HashMap<CL_Pokemon,Queue<node_data>> map = scc.setQ(f,agent.getSrcNode());
         target = map.keySet().iterator().next();
        return map.get(target);

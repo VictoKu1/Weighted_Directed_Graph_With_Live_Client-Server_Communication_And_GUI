@@ -44,6 +44,7 @@ public class SC_component {
                 continue;
             dist = dwg.getNode(pok.get_edge().getSrc()).getWeight();
             weight = pok.getValue();
+            //weight = 1;
             list.add(new pokemon_value(dist,weight,pok));
         }
         list.sort(Comparator.comparing(pokemon_value::getValue));
