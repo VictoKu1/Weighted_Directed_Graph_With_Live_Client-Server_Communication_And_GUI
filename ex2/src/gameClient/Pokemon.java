@@ -2,8 +2,6 @@ package gameClient;
 
 import java.util.*;
 
-
-
 public class Pokemon {
     public static HashMap<Integer, Pokemon> pokemon_map = new HashMap<>();
     private CL_Pokemon pokemon;
@@ -26,4 +24,11 @@ public class Pokemon {
         this.scc = scc;
     }
 }
+
+
+
+
+
+
+
 

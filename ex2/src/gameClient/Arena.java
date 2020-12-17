@@ -65,9 +65,8 @@ public class Arena {
         MIN = null;
         MAX = null;
         double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
-        Iterator<node_data> iter = _gg.getV().iterator();
-        while (iter.hasNext()) {
-            geo_location c = iter.next().getLocation();
+        for (api.node_data node_data : _gg.getV()) {
+            geo_location c = node_data.getLocation();
             if (MIN == null) {
                 x0 = c.x();
                 y0 = c.y();
@@ -172,9 +171,7 @@ public class Arena {
     }
 
     public static void updateEdge(CL_Pokemon fr, directed_weighted_graph g) {
-        Iterator<node_data> itr = g.getV().iterator();
-        while (itr.hasNext()) {
-            node_data v = itr.next();
+        for (node_data v : g.getV()) {
             Iterator<edge_data> iter = g.getE(v.getKey()).iterator();
             while (iter.hasNext()) {
                 edge_data e = iter.next();

@@ -78,5 +78,6 @@ class NodeTest {
         m.setParent(parent);
         assertNotEquals(m, n);
     }
+
 }
 

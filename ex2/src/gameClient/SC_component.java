@@ -76,4 +76,6 @@ public class SC_component {
             return value;
         }
     }
+
 }
+

@@ -66,4 +66,3 @@ class EdgeTest {
         assert Objects.equals(e, e2);
     }
 }
-

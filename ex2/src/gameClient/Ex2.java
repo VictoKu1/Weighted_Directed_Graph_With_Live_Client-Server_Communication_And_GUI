@@ -23,7 +23,7 @@ public class Ex2 implements Runnable {
         //Input_Frame input_frame = new Input_Frame("Start the game:");
         //input_frame.start();
         //int scenario_num = input_frame.getGame_id();
-        int scenario_num = 23;
+        int scenario_num = 3;
         //long id = input_frame.getLogin();
         //	game.login(id);
         game_service game = Game_Server_Ex2.getServer(scenario_num);
@@ -37,13 +37,13 @@ public class Ex2 implements Runnable {
         ag.load_graph(game.getGraph());
         directed_weighted_graph gg = ag.getGraph();
         while (game.isRunning()) {
-            greedy(game,gg);
+            greedy(game, gg);
             try {
                 if (ind % 1 == 0) {
                     _ar.setTime_left(game.timeToEnd());
                     _win.repaint();
                 }
-                Thread.sleep(dt);
+                Thread.sleep(1);
                 ind++;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -56,7 +56,7 @@ public class Ex2 implements Runnable {
         System.exit(0);
     }
 
-    public void greedy(game_service game,directed_weighted_graph gg) {
+    public void greedy(game_service game, directed_weighted_graph gg) {
         game.move();
         String lg = game.getAgents();
         List<CL_Agent> agents = _ar.getAgents(lg);
@@ -74,7 +74,7 @@ public class Ex2 implements Runnable {
             if (a.isMoving())
                 continue;
             CL_Pokemon pokemon = agent.getTarget();
-            System.out.println("agent number : "+a.getID() + " is going to :" + a.get_curr_fruit().getID() + " " + a.get_curr_fruit() );
+            System.out.println("agent number : " + a.getID() + " is going to :" + a.get_curr_fruit().getID() + " " + a.get_curr_fruit());
             if (a.getSrcNode() == pokemon.get_edge().getDest()) {
                 agents_paths.put(a.getID(), agent.setQ(cl_fs));
                 a.set_curr_fruit(agent.getTarget());
@@ -84,6 +84,7 @@ public class Ex2 implements Runnable {
             game.chooseNextEdge(a.getID(), node.getKey());
         }
     }
+
     //TODO change the start of all agent to be as far as possible ( inside the same component)
     private void init(game_service game) {
         String g = game.getGraph();
@@ -129,7 +130,7 @@ public class Ex2 implements Runnable {
         int i = 0;
         ArrayList<Integer> keys = new ArrayList<>(scc_map.keySet());
         Collections.sort(keys);
-        int key ,nn;
+        int key, nn;
         for (int a = 0; a < rs; a++) {
             if (i == SC_component.list.size())
                 i = 0;
@@ -153,6 +154,7 @@ public class Ex2 implements Runnable {
             agent.set_curr_fruit(_agent.getTarget());
         }
     }
+
     private void set_pokemons_scc() {
         List<Pokemon> pokemons = new ArrayList<>(Pokemon.pokemon_map.values());
         int src, dest;

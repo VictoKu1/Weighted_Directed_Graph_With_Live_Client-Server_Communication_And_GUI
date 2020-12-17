@@ -44,6 +44,6 @@ class LocationTest {
         assertEquals(3.74, l.distance(m), 0.01);
         assertEquals(68, l.distance(g), 0.1);
         assertEquals(64.7, g.distance(m), 0.01);
-
     }
+
 }

@@ -18,7 +18,7 @@ public class CL_Pokemon {
     private boolean target;
     private int id;
 
-    public CL_Pokemon(Point3D p, int t, double v,edge_data e , int id) {
+    public CL_Pokemon(Point3D p, int t, double v, edge_data e, int id) {
         _type = t;
         _value = v;
         set_edge(e);

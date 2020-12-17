@@ -224,7 +224,7 @@ public class DWGraph_DSAlgoTest {
             System.out.println("list number : " + i);
             System.out.print("[");
             for (node_data n : list)
-                System.out.print(" " + n.getKey()+ " ");
+                System.out.print(" " + n.getKey() + " ");
             System.out.print("]");
             System.out.println("");
         }

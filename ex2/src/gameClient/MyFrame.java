@@ -94,7 +94,6 @@ public class MyFrame extends JFrame {
         List<CL_Pokemon> fs = _ar.getPokemons();
         if (fs != null) {
             for (CL_Pokemon f : fs) {
-
                 Point3D c = f.getLocation();
                 int r = 10;
                 g.setColor(Color.green);

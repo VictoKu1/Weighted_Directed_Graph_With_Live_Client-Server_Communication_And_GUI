@@ -71,7 +71,7 @@ public class Ex2_Client implements Runnable {
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
         String lg = game.move();
         //System.out.println(lg);
-        List<CL_Agent> log = Arena.getAgents(lg,gg);
+        List<CL_Agent> log = Arena.getAgents(lg, gg);
         _ar.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs = game.getPokemons();
@@ -144,9 +144,6 @@ public class Ex2_Client implements Runnable {
 //****************************HERE IS THE INITIAL AGENTS POSITIONING BY WEIGHT OF THE POKEMONS USING RECURSIVE QUICKSORT ALGORITHM.****************************///
 
 
-
-
-
             Stack<CL_Pokemon> stk = locate(cl_fs); //Locating agents in front of the most weighty pokemon.
             for (int a = 0; a < rs; a++) {
                 CL_Pokemon c = stk.pop();
@@ -185,8 +182,8 @@ public class Ex2_Client implements Runnable {
         }
         quickSort(pokemonListWeight, 0, pokemonListWeight.length - 1);
         ArrayList<CL_Pokemon> cl_fs1 = new ArrayList<CL_Pokemon>(pokemonListWeight.length);
-        for (int i = 0; i < pokemonListWeight.length; i++) {
-            cl_fs1.add(weightToPokemon.get(pokemonListWeight[i]));
+        for (double v : pokemonListWeight) {
+            cl_fs1.add(weightToPokemon.get(v));
         }
         return cl_fs1;
     }
@@ -218,4 +215,5 @@ public class Ex2_Client implements Runnable {
         if (i < high)
             quickSort(array, i, high);
     }
+
 }
