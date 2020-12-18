@@ -32,7 +32,13 @@ public class Agent {
     }
 
     public synchronized Queue<node_data> setQ(List<CL_Pokemon> f) {
-        HashMap<CL_Pokemon, Queue<node_data>> map = scc.setQ(f, agent.getSrcNode());
+        HashMap<CL_Pokemon, Queue<node_data>> map = null;
+        while (map == null) {
+            map = scc.setQ(f, agent.getSrcNode());
+            if (map == null) {
+                agent.get_curr_fruit().setTarget(false);
+            }
+        }
         target = map.keySet().iterator().next();
         return map.get(target);
     }

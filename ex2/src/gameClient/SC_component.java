@@ -63,6 +63,8 @@ public class SC_component {
             weight = pok.getValue();
             list.add(new pokemon_value(dist,weight,length,pok));
         }
+        if (list.size() == 0)
+            return null;
         list.sort(Comparator.comparing(pokemon_value::getValue));
         CL_Pokemon pokemon = list.get(0).getPokemon();
         pokemon.setTarget(true);

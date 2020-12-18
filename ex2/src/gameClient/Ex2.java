@@ -11,21 +11,31 @@ public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
     private static HashMap<Integer, Queue<node_data>> agents_paths = new HashMap<>();
+    private static String[] input;
 
 
     public static void main(String[] args) {
+        input = args;
         Thread client = new Thread(new Ex2());
         client.start();
     }
 
     @Override
     public void run() {
-        //Input_Frame input_frame = new Input_Frame("Start the game:");
-        //input_frame.start();
-        //int scenario_num = input_frame.getGame_id();
-        int scenario_num = 23;
-        //long id = input_frame.getLogin();
-        //	game.login(id);
+        int scenario_num;
+        long id;
+//        if (input.length != 0){
+//            id = Long.parseLong(input[0]);
+//            scenario_num = Integer.parseInt(input[1]);
+//        }
+//        else{
+//        Input_Frame input_frame = new Input_Frame("Start the game:");
+//        input_frame.start();
+//        scenario_num = input_frame.getGame_id();
+//        id = input_frame.getLogin();
+//        }
+//        game.login(id);
+        scenario_num = 20;
         game_service game = Game_Server_Ex2.getServer(scenario_num);
         init(game);
         game.startGame();
