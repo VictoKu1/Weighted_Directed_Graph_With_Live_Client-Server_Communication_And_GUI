@@ -23,7 +23,7 @@ public class Ex2 implements Runnable {
         //Input_Frame input_frame = new Input_Frame("Start the game:");
         //input_frame.start();
         //int scenario_num = input_frame.getGame_id();
-        int scenario_num = 4;
+        int scenario_num = 23;
         //long id = input_frame.getLogin();
         //	game.login(id);
         game_service game = Game_Server_Ex2.getServer(scenario_num);

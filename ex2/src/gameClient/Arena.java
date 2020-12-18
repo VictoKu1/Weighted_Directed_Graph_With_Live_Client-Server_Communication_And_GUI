@@ -169,18 +169,14 @@ public class Arena {
                 double v = pk.getDouble("value");
                 String p = pk.getString("pos");
                 CL_Pokemon f = new CL_Pokemon(new Point3D(p), t, v, null);
-                Arena.updateEdge(f,gg);
-                // todo
-                if (f.get_edge().toString().equals("Edge{src=17, dest=16, info='', weight=1.8976550153516096, tag=0}") && f.toString().equals("F:{v=15.0, t=-1}"))
-                    System.out.println(" ");
-                if (b)
-                    for (Pokemon pokemon : Pokemon.pokemon_map.values()) {
-                        if (pokemon.getPokemon().equals(f)) {
-                            f = pokemon.getPokemon();
-                            CL_Pokemon.ids--;
-                            break;
-                        }
+                Arena.updateEdge(f, gg);
+                for (Pokemon pokemon : Pokemon.pokemon_map.values()) {
+                    if (pokemon.getPokemon().equals(f)) {
+                        f = pokemon.getPokemon();
+                        CL_Pokemon.ids--;
+                        break;
                     }
+                }
                 ans.add(f);
             }
             ArrayList<Integer> removable = new ArrayList<>();
@@ -191,11 +187,11 @@ public class Arena {
                     for (CL_Pokemon an : ans) {
                         t |= Pokemon.pokemon_map.get(pokemon).getPokemon().equals(an);
                     }
-                    if (!t){
+                    if (!t) {
                         removable.add(pokemon);
                     }
                 }
-            for (int i:removable) {
+            for (int i : removable) {
                 Pokemon.pokemon_map.remove(i);
             }
         } catch (JSONException e) {
