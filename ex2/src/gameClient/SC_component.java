@@ -7,14 +7,30 @@ import java.util.*;
 public class SC_component {
     public static ArrayList<SC_component> list = new ArrayList<>();
     private DWGraph_Algo dwGraphAlgo;
+    private Stack<CL_Pokemon> stk ;
 
     public SC_component(DWGraph_Algo ag) {
         this.dwGraphAlgo = ag;
         list.add(this);
+        stk = new Stack<>();
     }
 
     public DWGraph_Algo getDwGraphAlgo() {
         return dwGraphAlgo;
+    }
+    public CL_Pokemon getnext() {
+        return stk.pop();
+    }
+    public void addpok(CL_Pokemon p){
+        stk.push(p);
+    }
+    public void sort(){
+        ArrayList<CL_Pokemon> temp = new ArrayList<>(stk);
+        temp.sort(Comparator.comparing(CL_Pokemon::getValue));
+        stk = new Stack<>();
+        for (CL_Pokemon p:temp) {
+            stk.push(p);
+        }
     }
 
     public static void set_SCC(dw_graph_algorithms ag) {
@@ -37,15 +53,15 @@ public class SC_component {
         ArrayList<CL_Pokemon> fl = new ArrayList<>(f);
         directed_weighted_graph graph = dwGraphAlgo.getGraph();
         directed_weighted_graph dwg = dwGraphAlgo.dijkstraForAll(start);
-        double dist , weight;
+        double dist , weight , length;
         ArrayList<pokemon_value> list= new ArrayList<>();
         for (CL_Pokemon pok : f) {
             if (dwg.getNode(pok.get_edge().getSrc()) == null || dwg.getNode(pok.get_edge().getDest()) == null || pok.isTarget())
                 continue;
             dist = dwg.getNode(pok.get_edge().getSrc()).getWeight();
+            length = pok.get_edge().getWeight();
             weight = pok.getValue();
-            //weight = 1;
-            list.add(new pokemon_value(dist,weight,pok));
+            list.add(new pokemon_value(dist,weight,length,pok));
         }
         list.sort(Comparator.comparing(pokemon_value::getValue));
         CL_Pokemon pokemon = list.get(0).getPokemon();
@@ -63,8 +79,8 @@ public class SC_component {
         CL_Pokemon pokemon;
         double value;
 
-        public pokemon_value(double dest,double weight, CL_Pokemon pokemon1 ) {
-            this.value = dest/weight;
+        public pokemon_value(double dest,double weight, double length,CL_Pokemon pokemon1 ) {
+            this.value = (dest + length)/weight;
             this.pokemon = pokemon1;
         }
 
@@ -76,6 +92,7 @@ public class SC_component {
             return value;
         }
     }
+
 
 }
 

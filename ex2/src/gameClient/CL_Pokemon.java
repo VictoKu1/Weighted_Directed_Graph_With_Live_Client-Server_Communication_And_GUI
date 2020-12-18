@@ -5,10 +5,12 @@ import gameClient.util.Point3D;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class CL_Pokemon {
+    public static int ids = 0;
     private edge_data _edge;
     private double _value;
     private int _type;
@@ -18,14 +20,15 @@ public class CL_Pokemon {
     private boolean target;
     private int id;
 
-    public CL_Pokemon(Point3D p, int t, double v, edge_data e, int id) {
+    public CL_Pokemon(Point3D p, int t, double v, edge_data e) {
         _type = t;
         _value = v;
         set_edge(e);
         _pos = p;
         min_dist = -1;
         min_ro = -1;
-        this.id = id;
+        this.id = ids;
+        ids++;
     }
 
     public static CL_Pokemon init_from_json(String json) {
@@ -91,5 +94,23 @@ public class CL_Pokemon {
 
     public int getID() {
         return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CL_Pokemon pokemon = (CL_Pokemon) o;
+        return Double.compare(pokemon._value, _value) == 0 &&
+                _type == pokemon._type &&
+                Double.compare(pokemon.min_dist, min_dist) == 0 &&
+                min_ro == pokemon.min_ro &&
+                _edge.equals(pokemon._edge) &&
+                _pos.equals(pokemon._pos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_edge, _value, _type, _pos, min_dist, min_ro);
     }
 }

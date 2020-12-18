@@ -17,6 +17,7 @@ public class CL_Agent {
     private double _speed;
     private edge_data _curr_edge;
     private node_data _curr_node;
+    private node_data _prev_node;
     private directed_weighted_graph _gg;
     private CL_Pokemon _curr_fruit;
     private double _value;
@@ -62,6 +63,10 @@ public class CL_Agent {
         return this._curr_node.getKey();
     }
 
+    public int get_prev_node() {
+        return _prev_node.getKey();
+    }
+
     public String toJSON() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(CL_Agent.class, new agent_serializer());
@@ -104,6 +109,7 @@ public class CL_Agent {
     }
 
     public void setCurrNode(int src) {
+        this._prev_node = this._curr_node;
         this._curr_node = _gg.getNode(src);
     }
 
@@ -113,11 +119,6 @@ public class CL_Agent {
 
     public String toString() {
         return toJSON();
-    }
-
-    public String toString1() {
-        String ans = "" + this.getID() + "," + _pos + ", " + isMoving() + "," + this.getValue();
-        return ans;
     }
 
     public int getID() {

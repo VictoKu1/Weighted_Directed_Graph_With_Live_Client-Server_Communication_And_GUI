@@ -1,9 +1,7 @@
 package gameClient;
 
-import api.directed_weighted_graph;
-import api.edge_data;
-import api.geo_location;
-import api.node_data;
+import Server.Game_Server_Ex2;
+import api.*;
 import gameClient.util.Point3D;
 import gameClient.util.Range;
 import gameClient.util.Range2D;
@@ -24,6 +22,7 @@ import java.util.List;
 public class Arena {
     public static final double EPS1 = 0.001, EPS2 = EPS1 * EPS1, EPS = EPS2;
     private directed_weighted_graph _gg;
+    private game_service game;
     private List<CL_Agent> _agents;
     private List<CL_Pokemon> _pokemons;
     private List<String> _info;
@@ -59,6 +58,14 @@ public class Arena {
 
     public void setTime_left(long time_left) {
         this.time_left = time_left;
+    }
+
+    public game_service getGame() {
+        return game;
+    }
+
+    public void setGame(game_service game) {
+        this.game = game;
     }
 
     private void init() {
@@ -120,8 +127,8 @@ public class Arena {
         try {
             JSONObject ttt = new JSONObject(aa);
             JSONArray ags = ttt.getJSONArray("Agents");
-            for(int i=0;i<ags.length();i++) {
-                CL_Agent c = new CL_Agent(gg,0);
+            for (int i = 0; i < ags.length(); i++) {
+                CL_Agent c = new CL_Agent(gg, 0);
                 c.update(ags.get(i).toString());
                 ans.add(c);
             }
@@ -130,6 +137,7 @@ public class Arena {
         }
         return ans;
     }
+
     public static List<CL_Agent> getAgents(String aa) {
         ArrayList<CL_Agent> ans = new ArrayList<CL_Agent>();
         try {
@@ -143,14 +151,13 @@ public class Arena {
                 c.update(ags.get(i).toString());
                 ans.add(c);
             }
-            //= getJSONArray("Agents");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return ans;
     }
 
-    public static ArrayList<CL_Pokemon> json2Pokemons(String fs) {
+    public static ArrayList<CL_Pokemon> json2Pokemons(String fs, boolean b, directed_weighted_graph gg) {
         ArrayList<CL_Pokemon> ans = new ArrayList<CL_Pokemon>();
         try {
             JSONObject ttt = new JSONObject(fs);
@@ -161,8 +168,35 @@ public class Arena {
                 int t = pk.getInt("type");
                 double v = pk.getDouble("value");
                 String p = pk.getString("pos");
-                CL_Pokemon f = new CL_Pokemon(new Point3D(p), t, v, null,i);
+                CL_Pokemon f = new CL_Pokemon(new Point3D(p), t, v, null);
+                Arena.updateEdge(f,gg);
+                // todo
+                if (f.get_edge().toString().equals("Edge{src=17, dest=16, info='', weight=1.8976550153516096, tag=0}") && f.toString().equals("F:{v=15.0, t=-1}"))
+                    System.out.println(" ");
+                if (b)
+                    for (Pokemon pokemon : Pokemon.pokemon_map.values()) {
+                        if (pokemon.getPokemon().equals(f)) {
+                            f = pokemon.getPokemon();
+                            CL_Pokemon.ids--;
+                            break;
+                        }
+                    }
                 ans.add(f);
+            }
+            ArrayList<Integer> removable = new ArrayList<>();
+            boolean t;
+            if (b)
+                for (int pokemon : Pokemon.pokemon_map.keySet()) {
+                    t = false;
+                    for (CL_Pokemon an : ans) {
+                        t |= Pokemon.pokemon_map.get(pokemon).getPokemon().equals(an);
+                    }
+                    if (!t){
+                        removable.add(pokemon);
+                    }
+                }
+            for (int i:removable) {
+                Pokemon.pokemon_map.remove(i);
             }
         } catch (JSONException e) {
             e.printStackTrace();

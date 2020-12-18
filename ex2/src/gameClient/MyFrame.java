@@ -51,7 +51,6 @@ public class MyFrame extends JFrame {
         Graphics graph = img.getGraphics();
         paintComponents(graph);
         g.drawImage(img, 0, 0, this);
-//        g.clearRect(0, 0, w, h);
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
@@ -122,7 +121,7 @@ public class MyFrame extends JFrame {
         g.drawString("Agents : ", 50, 50);
         while (rs != null && i < rs.size()) {
             g.setColor(colors[i % 4]);
-            a = "id: " + rs.get(i).getID() + "  score: " + rs.get(i).getValue();
+            a = "id: " + rs.get(i).getID() + "  score: " + rs.get(i).getValue() + " speed : " + rs.get(i).getSpeed();
             font = new Font("Ariel", Font.PLAIN, 15);
             g.setFont(font);
             g.drawString(a, 50, 70 + i * 15);
