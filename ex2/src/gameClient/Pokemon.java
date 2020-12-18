@@ -12,11 +12,11 @@ public class Pokemon {
         pokemon_map.put(pokemon.getID(), this);
     }
 
-    public static void resetargets(List<CL_Agent> agents) {
+    public static void resetargets() {
         for (Pokemon p:pokemon_map.values()){
             boolean b = false;
-            for (CL_Agent a:agents) {
-                b |= a.get_curr_fruit().equals(p.getPokemon());
+            for (Agent a:Agent.agents.values()) {
+                b |= a.getAgent().get_curr_fruit().equals(p.getPokemon());
             }
             if (!b)
                 p.getPokemon().setTarget(false);

@@ -35,27 +35,24 @@ public class Ex2 implements Runnable {
 //        id = input_frame.getLogin();
 //        }
 //        game.login(id);
-        scenario_num = 20;
+        scenario_num = 23;
         game_service game = Game_Server_Ex2.getServer(scenario_num);
         init(game);
         game.startGame();
         long time = game.timeToEnd();
         _win.setTitle("level number : " + scenario_num);
-        int ind = 0;
         long dt = 100;
         DWGraph_Algo ag = new DWGraph_Algo();
         ag.load_graph(game.getGraph());
         directed_weighted_graph gg = ag.getGraph();
         while (game.isRunning()) {
-            if (ind % 100 == 0)
-                greedy(game,gg);
+            greedy(game, gg);
             try {
                 {
                     _ar.setTime_left(game.timeToEnd());
                     _win.repaint();
                 }
-                Thread.sleep(1);
-                ind++;
+                Thread.sleep(dt);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -75,6 +72,7 @@ public class Ex2 implements Runnable {
      * state 2 : the agent just took is target there for need a new one :
      * finding is new target by finding the best target from is location (see SC_component setQ function)
      * state 3 : the agent is on is way toward is target.
+     *
      * @param game
      * @param gg
      */
@@ -82,7 +80,7 @@ public class Ex2 implements Runnable {
         game.move();
         String lg = game.getAgents();
         List<CL_Agent> agents = _ar.getAgents(lg);
-        ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons(),true,gg);
+        ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons(), true, gg);
         for (int a = 0; a < cl_fs.size(); a++) {
             new Pokemon(cl_fs.get(a));
         }
@@ -95,7 +93,8 @@ public class Ex2 implements Runnable {
                 continue;
             if (a.getSrcNode() == a.get_curr_fruit().get_edge().getSrc()) {
                 game.move();
-                long t = (long) ((a.get_curr_fruit().get_edge().getWeight() / a.getSpeed()) * 10);
+                //todo find the best time to wait
+                long t = (long) ((a.get_curr_fruit().get_edge().getWeight() / a.getSpeed()) * 100);
                 synchronized (this) {
                     try {
                         this.wait(t);
@@ -116,8 +115,8 @@ public class Ex2 implements Runnable {
 
 
         }
-        Pokemon.resetargets(agents);
-}
+        Pokemon.resetargets();
+    }
 
     private void init(game_service game) {
         String g = game.getGraph();
@@ -172,7 +171,6 @@ public class Ex2 implements Runnable {
         ArrayList<Integer> keys = new ArrayList<>(scc_map.keySet());
         Collections.sort(keys);
         int key, nn;
-        boolean b;
         for (int a = 0; a < rs; a++) {
             if (i == SC_component.list.size())
                 i = 0;

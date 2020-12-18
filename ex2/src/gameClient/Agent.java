@@ -37,6 +37,11 @@ public class Agent {
             map = scc.setQ(f, agent.getSrcNode());
             if (map == null) {
                 agent.get_curr_fruit().setTarget(false);
+                Pokemon.resetargets();
+                 f = new ArrayList<>();
+                for (Pokemon p:Pokemon.pokemon_map.values()) {
+                    f.add(p.getPokemon());
+                }
             }
         }
         target = map.keySet().iterator().next();
