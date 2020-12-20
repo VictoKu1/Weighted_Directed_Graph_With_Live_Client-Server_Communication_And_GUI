@@ -1,4 +1,3 @@
-package tests;
 
 import api.Location;
 import org.junit.jupiter.api.*;

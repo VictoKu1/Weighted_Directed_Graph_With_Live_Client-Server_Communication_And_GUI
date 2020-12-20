@@ -1,6 +1,4 @@
 
-package tests;
-
 import org.junit.jupiter.api.*;
 import api.*;
 

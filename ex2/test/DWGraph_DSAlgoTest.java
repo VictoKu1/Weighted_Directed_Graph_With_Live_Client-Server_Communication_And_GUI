@@ -1,7 +1,6 @@
-package tests;
 
 import api.*;
-import org.junit.After;
+
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -211,6 +210,22 @@ public class DWGraph_DSAlgoTest {
         ag.init(g);
         assertTrue(ag.isConnected());
         assertEquals(100_000, ag.shortestPathDist(0, 100_000));
+    }
+    @Test
+    void dijkstraForAll(){
+        ag.init(graph_ds);
+        directed_weighted_graph g = ((DWGraph_Algo) (ag)).dijkstraForAll(0);
+        node_data n ;
+        double[] arr = new double[5];
+        arr[0] = 0;
+        arr[1] = 1;
+        arr[2] = 2;
+        arr[3] = 4;
+        arr[4] = 3;
+        for (int i = 0; i < 5; i++) {
+            n = g.getNode(i);
+            assert arr[i] == n.getWeight();
+        }
     }
 
     @Test

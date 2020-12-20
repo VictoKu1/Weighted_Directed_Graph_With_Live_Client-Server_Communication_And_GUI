@@ -12,6 +12,8 @@ public class Input_Frame extends JFrame {
     private long login;
     private int game_id;
 
+
+
     public Input_Frame(String title) {
         super(title);
 
@@ -42,7 +44,7 @@ public class Input_Frame extends JFrame {
                         bool[0] = false;
                     } catch (IllegalArgumentException exception) {
                         l.setFont(new Font("Ariel", Font.PLAIN, 20));
-                        l.setForeground(Color.white);
+                        l.setForeground(Color.BLACK);
                         l.setText("the input are not numbers");
 
                     }
@@ -67,4 +69,18 @@ public class Input_Frame extends JFrame {
     public synchronized int getGame_id() {
         return game_id;
     }
+
+//    public void setinfo(String s){
+//        this.info = s;
+//    }
+//
+//    public void paint(Graphics g){
+//        end(g);
+//    }
+//    private synchronized void end(Graphics g){
+//        this.getContentPane().setLayout(new FlowLayout());
+//        g.drawString(info,100,100);
+//        this.setVisible(true);
+//    }
+
 }
