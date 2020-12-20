@@ -36,7 +36,12 @@ public class Ex2 implements Runnable {
         id = input_frame.getLogin();
         }
         game_service game = Game_Server_Ex2.getServer(scenario_num);
-        game.login(id);
+        try {
+            game.login(id);
+        }catch (NullPointerException e){
+            System.out.println("this level doesn't exist");
+            System.exit(-1);
+        }
         init(game);
         game.startGame();
         long time = game.timeToEnd();
