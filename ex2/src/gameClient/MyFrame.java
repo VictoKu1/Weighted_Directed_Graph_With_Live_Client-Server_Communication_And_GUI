@@ -20,14 +20,13 @@ import java.util.List;
  */
 public class MyFrame extends JFrame {
 
-    private int _ind;
+
     private Arena _ar;
     private gameClient.util.Range2Range _w2f;
 
     MyFrame(String a) {
         super(a);
 
-        int _ind = 0;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -68,11 +67,6 @@ public class MyFrame extends JFrame {
     }
 
     private void drawInfo(Graphics g) {
-        List<String> str = _ar.get_info();
-        String dt = "none";
-        for (int i = 0; i < str.size(); i++) {
-            g.drawString(str.get(i) + " dt: " + dt, 100, 60 + i * 20);
-        }
         int time = (int) _ar.getTime_left() / 1000;
         g.drawString("time left : " + time + "s", this.getWidth() - 150, 50);
     }
@@ -103,8 +97,6 @@ public class MyFrame extends JFrame {
 
                     geo_location fp = this._w2f.world2frame(c);
                     g.fillOval((int) fp.x() - r, (int) fp.y() - r, 2 * r, 2 * r);
-                    //g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
-
                 }
             }
         }
@@ -112,7 +104,6 @@ public class MyFrame extends JFrame {
 
     private void drawAgants(Graphics g) {
         List<CL_Agent> rs = _ar.getAgents();
-        //	Iterator<OOP_Point3D> itr = rs.iterator();
         Color[] colors = new Color[]{Color.red, Color.BLACK, Color.BLUE, Color.CYAN};
         int i = 0;
         String a = "";
@@ -149,6 +140,5 @@ public class MyFrame extends JFrame {
         geo_location s0 = this._w2f.world2frame(s);
         geo_location d0 = this._w2f.world2frame(d);
         g.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
-        //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
     }
 }

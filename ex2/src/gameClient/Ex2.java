@@ -12,6 +12,7 @@ public class Ex2 implements Runnable {
     private static Arena _ar;
     private static HashMap<Integer, Queue<node_data>> agents_paths = new HashMap<>();
     private static String[] input;
+    private long dt = 200;
 
 
     public static void main(String[] args) {
@@ -24,24 +25,22 @@ public class Ex2 implements Runnable {
     public void run() {
         int scenario_num;
         long id;
-//        if (input.length != 0){
-//            id = Long.parseLong(input[0]);
-//            scenario_num = Integer.parseInt(input[1]);
-//        }
-//        else{
-//        Input_Frame input_frame = new Input_Frame("Start the game:");
-//        input_frame.start();
-//        scenario_num = input_frame.getGame_id();
-//        id = input_frame.getLogin();
-//        }
-//        game.login(id);
-        scenario_num = 23;
+        if (input.length != 0){
+            id = Long.parseLong(input[0]);
+            scenario_num = Integer.parseInt(input[1]);
+        }
+        else{
+        Input_Frame input_frame = new Input_Frame("Start the game:");
+        input_frame.start();
+        scenario_num = input_frame.getGame_id();
+        id = input_frame.getLogin();
+        }
         game_service game = Game_Server_Ex2.getServer(scenario_num);
+        //game.login(id);
         init(game);
         game.startGame();
         long time = game.timeToEnd();
         _win.setTitle("level number : " + scenario_num);
-        long dt = 100;
         DWGraph_Algo ag = new DWGraph_Algo();
         ag.load_graph(game.getGraph());
         directed_weighted_graph gg = ag.getGraph();
@@ -91,18 +90,9 @@ public class Ex2 implements Runnable {
             agent = Agent.agents.get(a.getID());
             if (a.isMoving())
                 continue;
-            if (a.getSrcNode() == a.get_curr_fruit().get_edge().getSrc()) {
-                game.move();
-                //todo find the best time to wait
-                long t = (long) ((a.get_curr_fruit().get_edge().getWeight() / a.getSpeed()) * 100);
-                synchronized (this) {
-                    try {
-                        this.wait(t);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    game.move();
-                }
+            edge_data edgeData = a.get_curr_fruit().get_edge();
+            if (a.getSrcNode() == edgeData.getSrc() && a.getSpeed() == 5) {
+                dt = 100;
             }
             CL_Pokemon pokemon = agent.getTarget();
             if (a.getSrcNode() == pokemon.get_edge().getDest() && a.get_prev_node() == pokemon.get_edge().getSrc()) {
@@ -112,8 +102,6 @@ public class Ex2 implements Runnable {
             node_data node = agents_paths.get(a.getID()).poll();
             a.setNextNode(node.getKey());
             game.chooseNextEdge(a.getID(), node.getKey());
-
-
         }
         Pokemon.resetargets();
     }

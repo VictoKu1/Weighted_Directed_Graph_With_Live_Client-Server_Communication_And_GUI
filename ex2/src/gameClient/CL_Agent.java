@@ -129,12 +129,6 @@ public class CL_Agent {
         return _pos;
     }
 
-    public Queue<node_data> set_curr_path(List<node_data> _curr_path, node_data node) {
-        Queue<node_data> curr_path = new ArrayDeque<>(_curr_path);
-        curr_path.add(node);
-        return curr_path;
-    }
-
     public double getValue() {
         return this._value;
     }
@@ -165,9 +159,4 @@ public class CL_Agent {
     public void set_curr_fruit(CL_Pokemon curr_fruit) {
         this._curr_fruit = curr_fruit;
     }
-
-    public edge_data get_curr_edge() {
-        return this._curr_edge;
-    }
-
 }

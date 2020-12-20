@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * this class build the input frame where the user will enter is id and the wanted game id.
+ */
 public class Input_Frame extends JFrame {
     private long login;
     private int game_id;
@@ -49,10 +52,18 @@ public class Input_Frame extends JFrame {
         return bool[0];
     }
 
+    /**
+     * return the id of the user
+     * @return
+     */
     public synchronized long getLogin() {
         return login;
     }
 
+    /**
+     * return the id of the game
+     * @return
+     */
     public synchronized int getGame_id() {
         return game_id;
     }
