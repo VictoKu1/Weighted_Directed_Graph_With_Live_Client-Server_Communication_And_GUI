@@ -26,7 +26,7 @@ public class output_frame extends JFrame {
     public void start(){
         JLabel l1 = new JLabel();
 
-        l1.setFont(new Font("Ariel", Font.PLAIN, 20));
+        l1.setFont(new Font("Ariel", Font.PLAIN, 15));
         l1.setForeground(Color.BLACK);
         Dimension size = l1.getPreferredSize();
         l1.setBounds(10, 10, size.width, size.height);
@@ -34,7 +34,7 @@ public class output_frame extends JFrame {
         this.add(l1);
         this.setVisible(true);
 
-        l1.setText("grade : " + gameServer.grade+"\n moves : " + gameServer.moves+"\n agents : " + gameServer.agents+"\n targets : " + gameServer.pokemons+"\n time : " + time + " s");
+        l1.setText("grade : " + gameServer.grade+", \n moves : " + gameServer.moves+", \n agents : " + gameServer.agents+", \n targets : " + gameServer.pokemons+", \n time : " + time + " s");
 
         while(true){
 

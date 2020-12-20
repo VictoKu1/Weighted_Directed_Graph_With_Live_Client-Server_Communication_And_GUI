@@ -25,18 +25,18 @@ public class Ex2 implements Runnable {
     public void run() {
         int scenario_num = 0;
         long id;
-//        if (input.length != 0){
-//            id = Long.parseLong(input[0]);
-//            scenario_num = Integer.parseInt(input[1]);
-//        }
-//        else{
-//        Input_Frame input_frame = new Input_Frame("Start the game:");
-//        input_frame.start();
-//        scenario_num = input_frame.getGame_id();
-//        id = input_frame.getLogin();
-//        }
+        if (input.length != 0){
+            id = Long.parseLong(input[0]);
+            scenario_num = Integer.parseInt(input[1]);
+        }
+        else{
+        Input_Frame input_frame = new Input_Frame("Start the game:");
+        input_frame.start();
+        scenario_num = input_frame.getGame_id();
+        id = input_frame.getLogin();
+        }
         game_service game = Game_Server_Ex2.getServer(scenario_num);
-        //game.login(id);
+        game.login(id);
         init(game);
         game.startGame();
         long time = game.timeToEnd();
