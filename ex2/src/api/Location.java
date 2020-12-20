@@ -14,7 +14,6 @@ public class Location implements geo_location {
         this.x = Double.parseDouble(arr[0]);
         this.y = Double.parseDouble(arr[1]);
         this.z = Double.parseDouble(arr[2]);
-
     }
 
     public Location(double x, double y, double z) {
@@ -38,6 +37,11 @@ public class Location implements geo_location {
         return this.z;
     }
 
+    /**
+     * return the distance
+     * @param g
+     * @return
+     */
     @Override
     public double distance(geo_location g) {
         double dx = this.x - g.x();

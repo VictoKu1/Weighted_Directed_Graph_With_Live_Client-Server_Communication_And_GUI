@@ -133,7 +133,6 @@ public class CL_Agent {
         return this._value;
     }
 
-
     public int getNextNode() {
         int ans = -2;
         if (this._curr_edge == null) {

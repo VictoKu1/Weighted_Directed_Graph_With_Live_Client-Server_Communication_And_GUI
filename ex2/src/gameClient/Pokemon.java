@@ -12,18 +12,6 @@ public class Pokemon {
         pokemon_map.put(pokemon.getID(), this);
     }
 
-    public static void resetargets() {
-        for (Pokemon p:pokemon_map.values()){
-            boolean b = false;
-            for (Agent a:Agent.agents.values()) {
-                b |= a.getAgent().get_curr_fruit().equals(p.getPokemon());
-            }
-            if (!b)
-                p.getPokemon().setTarget(false);
-        }
-
-    }
-
     public CL_Pokemon getPokemon() {
         return pokemon;
     }
@@ -34,6 +22,21 @@ public class Pokemon {
 
     public void setScc(SC_component scc) {
         this.scc = scc;
+    }
+
+    /**
+     * resets the targets "is target"
+     */
+    public static void resetargets() {
+        for (Pokemon p:pokemon_map.values()){
+            boolean b = false;
+            for (Agent a:Agent.agents.values()) {
+                b |= a.getAgent().get_curr_fruit().equals(p.getPokemon());
+            }
+            if (!b)
+                p.getPokemon().setTarget(false);
+        }
+
     }
 }
 

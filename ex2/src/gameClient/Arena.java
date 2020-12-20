@@ -15,17 +15,18 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class represents a multi Agents Arena which move on a graph - grabs Pokemons and avoid the Zombies.
+ * This class represents a multi Agents Arena which move on a graph - grabs targets.
  *
  * @author boaz.benmoshe
  */
 public class Arena {
-    public static final double EPS1 = 0.001, EPS2 = EPS1 * EPS1, EPS = EPS2;
+    public static final double EPS1 = 0.001, EPS2 = EPS1 * EPS1;
     private directed_weighted_graph _gg;
     private game_service game;
     private List<CL_Agent> _agents;
     private List<CL_Pokemon> _pokemons;
     private long time_left;
+
     public void setPokemons(List<CL_Pokemon> f) {
         this._pokemons = f;
     }
@@ -36,7 +37,7 @@ public class Arena {
 
     public void setGraph(directed_weighted_graph g) {
         this._gg = g;
-    }//init();}
+    }
 
     public long getTime_left() {
         return time_left;
@@ -62,13 +63,16 @@ public class Arena {
         return _pokemons;
     }
 
-
     public directed_weighted_graph getGraph() {
         return _gg;
     }
 
-
-    ////////////////////////////////////////////////////
+    /**
+     * create all agents given the data from the game
+     * @param aa
+     * @param gg
+     * @return
+     */
     public static List<CL_Agent> getAgents(String aa, directed_weighted_graph gg) {
         ArrayList<CL_Agent> ans = new ArrayList<CL_Agent>();
         try {
@@ -84,7 +88,11 @@ public class Arena {
         }
         return ans;
     }
-
+    /**
+     * update the data of all agents given the
+     * @param aa
+     * @return
+     */
     public static List<CL_Agent> getAgents(String aa) {
         ArrayList<CL_Agent> ans = new ArrayList<CL_Agent>();
         try {
@@ -103,7 +111,13 @@ public class Arena {
         }
         return ans;
     }
-
+    /**
+     * create all targets given the data from the game
+     * @param fs
+     * @param b
+     * @param gg
+     * @return
+     */
     public static ArrayList<CL_Pokemon> json2Pokemons(String fs, boolean b, directed_weighted_graph gg) {
         ArrayList<CL_Pokemon> ans = new ArrayList<CL_Pokemon>();
         try {
@@ -147,7 +161,7 @@ public class Arena {
         return ans;
     }
 
-    public static void updateEdge(CL_Pokemon fr, directed_weighted_graph g) {
+    private static void updateEdge(CL_Pokemon fr, directed_weighted_graph g) {
         for (node_data v : g.getV()) {
             Iterator<edge_data> iter = g.getE(v.getKey()).iterator();
             while (iter.hasNext()) {

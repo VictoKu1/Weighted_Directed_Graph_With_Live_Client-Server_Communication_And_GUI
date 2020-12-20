@@ -18,7 +18,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         this.init(new DWGraph_DS());
     }
 
-    /*
+    /**
      *Method which make the parameter this.g to point on the inputted graph g .
      */
     @Override
@@ -27,7 +27,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         Tarjan_Node.nodes = new HashMap<>();
     }
 
-    /*
+    /**
      *Method which returns a pointer to the this.g graph this class is working on .
      */
     @Override
@@ -38,7 +38,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return this.g;
     }
 
-    /*
+    /**
      *Compute a deep copy of this weighted graph.
      */
     @Override
@@ -90,7 +90,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
-    /*
+    /**
      *Returns true if and only if (iff) there is a valid path from each node to each other node. NOTE: assume directional graph (all n*(n-1) ordered pairs).
      */
     @Override
@@ -172,23 +172,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
         }
     }
-//    /*
-//     *Returns the last node the DFS algorithm worked on, returns null in case there is no such thing .
-//     */
-//    private node_data getTheNodeWithHighestEndTime(Integer highestTime) {
-//        Iterator<node_data> itr = this.g.getV().iterator();
-//        while (itr.hasNext()) {
-//            node_data node = itr.next();
-//            if (node.getTag() == highestTime.intValue()) {
-//                return node;
-//            }
-//        }
-//        return null;
-//    }
-
-    /*
-     *Sets all the Tag's, Info's and Weight's parameters of each node to it's default value .
-     */
     private void defaultValuesForEachNode() {
         defaultTagForEachNode();
         defaultInfoForEachNode();
@@ -354,8 +337,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     break;
             }
     }
-    /*
+    /**
      *Performs dijkstra algorithm from a specific node for in-game purposes
+     * @param _src
+     * @return
      */
     public directed_weighted_graph dijkstraForAll(int _src) {
         node_data src = g.getNode(_src);

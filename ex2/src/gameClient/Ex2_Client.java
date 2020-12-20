@@ -136,9 +136,9 @@ public class Ex2_Client implements Runnable {
             System.out.println(game.getAgents());
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
             ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons(),false, gg);
-            for (CL_Pokemon cl_f : cl_fs) {
-                Arena.updateEdge(cl_f, gg);
-            }
+//            for (CL_Pokemon cl_f : cl_fs) {
+//                Arena.updateEdge(cl_f, gg);
+//            }
 
 
 //****************************HERE IS THE INITIAL AGENTS POSITIONING BY WEIGHT OF THE POKEMONS USING RECURSIVE QUICKSORT ALGORITHM.****************************///
