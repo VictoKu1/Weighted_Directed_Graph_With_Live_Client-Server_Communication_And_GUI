@@ -1,4 +1,4 @@
-# OOP Course Exercise 2.
+# OOP Course Exercise 2: Weighted Directed Graph Implemenation With Shortest Path Algorithm On A Live Changing Graph Implementation.
 The following project represents a pseudo-AI for a vehicle routing problem.
 The project is built from two parts :
 
@@ -70,3 +70,5 @@ cd assignment_2_oop
 
 ```
 5) Enjoy!
+
+
